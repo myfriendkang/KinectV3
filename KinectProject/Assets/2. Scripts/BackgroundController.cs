@@ -37,7 +37,7 @@ public class BackgroundController : MonoBehaviour
     void Update()
     {
         KinectManager manager = KinectManager.Instance;
-        Debug.Log(string.Format("fade : {0}  - OrignalRaw : {1} ", _fade, _originRaw));     
+     //   Debug.Log(string.Format("fade : {0}  - OrignalRaw : {1} ", _fade, _originRaw));     
          if (manager && manager.IsInitialized())
         {
             if (Input.GetMouseButtonDown(0)) //When Trigger!
