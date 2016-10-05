@@ -3,55 +3,75 @@ using System.Collections;
 
 public class BackgroundController : MonoBehaviour
 {
-
     public GUITexture backgroundImage;    //Image Texture
     public GUITexture backgroundImageRaw; //Raw Kinect FOV
     public GameObject dustEffect;
-
+    public Camera mainCamera;
     private bool _fade;
     private bool _origin;
     private bool _isReady = false;
     private bool _originRaw;
     private int _mouseButtonStatus = -1;
+    public GameObject test;
+    public int stage;
+    public bool? closeTrigger;  //{ default : -1, close = 1, far = 0);
+    public GameObject headTracking;
+    bool sFlag;
+    bool dFlag;
     // Use this for initialization
     void Start()
     {
         _fade = false;
         _origin = true;
-        _originRaw = false; 
-        KinectManager kinectManager = KinectManager.Instance;
+        _originRaw = false;
+        stage = 0;
         dustEffect.GetComponent<ParticleSystem>().Stop();
-        if (kinectManager && kinectManager.IsInitialized())
-        {
-            if (backgroundImageRaw.texture == null)
-            {
-                //BackgroundImageRaw == null (That means there is no texture. so show camer view from Kinect (FOV))
-                backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1); //Flip over 180 degree
-                backgroundImageRaw.texture = kinectManager.GetUsersClrTex();    //Apply Live FOV to Main Texture
-            }
-        }
-
+        closeTrigger = null;
+        sFlag = false;
+        dFlag = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         KinectManager manager = KinectManager.Instance;
-     //   Debug.Log(string.Format("fade : {0}  - OrignalRaw : {1} ", _fade, _originRaw));     
          if (manager && manager.IsInitialized())
         {
-            if (Input.GetMouseButtonDown(0)) //When Trigger!
+            closeTrigger = headTracking.GetComponent<HeadTracking>().isClose;
+            if (backgroundImageRaw.texture == null)
             {
+                backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1); //Flip over 180 degree
+                backgroundImageRaw.texture = manager.GetUsersClrTex();    //Apply Live FOV to Main Texture
+            }
+            if (Input.GetMouseButtonDown(0) || (closeTrigger == true && sFlag == false)) //When Trigger!
+            {
+                Debug.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                test.GetComponent<BackgroundRemovalManager>().flag = true;
                 dustEffect.GetComponent<ParticleSystem>().Play();
                 _mouseButtonStatus = 0;
                 StartCoroutine("EmitDust");
+                if (stage == 0)
+                {
+                    stage = 1;
+                }
+                sFlag = true;
+                if (dFlag)
+                {
+                    dFlag = false;
+                }
+                
             }
-
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) || (closeTrigger == false && dFlag == false))
             {
+                Debug.Log("-----------------------------------------------");
                 _mouseButtonStatus = 1;
                 dustEffect.GetComponent<ParticleSystem>().Stop();
                 StartCoroutine(FadeOut(0.0f, 3.0f));
+                dFlag = true;
+                if (sFlag)
+                {
+                    sFlag = false;
+                }
             }
         }
         if (_fade == true)
@@ -79,7 +99,6 @@ public class BackgroundController : MonoBehaviour
         {
             Color newColor = new Color(backgroundImageRaw.color.r, backgroundImageRaw.color.g, backgroundImageRaw.color.b, Mathf.Lerp(alphaValue, aValue, t));
             backgroundImageRaw.color = newColor;
-           
             if (_mouseButtonStatus == 0)
             {
                 if (_isReady == true)
@@ -96,7 +115,6 @@ public class BackgroundController : MonoBehaviour
             StartCoroutine(FadeIn(1, 3.0f));
             yield return null;
         }
-   
     }
 
     IEnumerator FadeIn(float aValue, float aTime)
@@ -120,7 +138,7 @@ public class BackgroundController : MonoBehaviour
             {
                 _origin = true;
                 StartCoroutine(TimeForFadeOUT(3.0f));
-                
+                StartCoroutine(FlagControl());
             }
         }
     }
@@ -133,7 +151,17 @@ public class BackgroundController : MonoBehaviour
 
     IEnumerator TimeForFadeOUT(float time)
     {
+        
         yield return new WaitForSeconds(time);
         _originRaw = true;
+    }
+
+    IEnumerator FlagControl()
+    {
+        yield return new WaitForSeconds(2.8f);
+        if (stage == 1)
+        {
+            stage = 0;
+        }
     }
 }

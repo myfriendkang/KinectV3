@@ -53,7 +53,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 	
 	// The single instance of BackgroundRemovalManager
 	private static BackgroundRemovalManager instance;
-	
+    public GameObject backgroundControl;
+    public int stageStatus;
 	
 	/// <summary>
 	/// Gets the single BackgroundRemovalManager instance.
@@ -214,7 +215,7 @@ public class BackgroundRemovalManager : MonoBehaviour
 				debugText.text = ex.Message;
 		}
 	}
-
+    
 	void OnDestroy()
 	{
 		if(isBrInited && sensorData != null && sensorData.sensorInterface != null)
@@ -226,7 +227,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 		isBrInited = false;
 		instance = null;
 	}
-	
+    public bool flag = false;
+
 	void Update () 
 	{
 		if(isBrInited)
@@ -284,7 +286,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 			}
 		}
 	}
-	
+	//At the first time, both start (Dubplicate 2 things. but after few seconds disable one of textuer.
+    // same thing when you re enter, first both -> disable one ;
 	void OnGUI()
 	{
 		if(isBrInited && foregroundCamera)
@@ -308,11 +311,25 @@ public class BackgroundRemovalManager : MonoBehaviour
 			if(computeBodyTexOnly && sensorData != null && sensorData.alphaBodyTexture)
 			{
 				GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
-			}
+            }
 			else if(sensorData != null && bHiResSupported && !bKinect1Int && sensorData.color2DepthTexture)
 			{
-				//GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
-				GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
+                if (backgroundControl.GetComponent<BackgroundController>().stage == 0 && flag == false)
+                {
+                    GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
+                    StartCoroutine(TransitionFuc(1.0f));
+                    
+                }
+                if (backgroundControl.GetComponent<BackgroundController>().stage == 1)
+                {
+                    GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
+                    flag = false;
+                }
+                //This Section!
+                //GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
+                // if (flag == false)
+                //     GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
+                //StartCoroutine(TransitionFuc(1.0f));
 			}
 			else if(sensorData != null && !bKinect1Int && sensorData.depth2ColorTexture)
 			{
@@ -326,6 +343,12 @@ public class BackgroundRemovalManager : MonoBehaviour
 			}
 		}
 	}
+
+    IEnumerator TransitionFuc(float time)
+    {
+        yield return new WaitForSeconds(time);
+        flag = true;
+    }
 
 
 }

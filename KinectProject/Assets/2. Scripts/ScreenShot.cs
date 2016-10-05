@@ -18,8 +18,6 @@ public class ScreenShot : MonoBehaviour {
     // Use this for initialization
     void Start () {
         KinectManager manager = KinectManager.Instance;
-
-
     }
 	
 	// Update is called once per frame
