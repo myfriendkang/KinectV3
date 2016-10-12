@@ -21,8 +21,9 @@ public class BackgroundController : MonoBehaviour
 
     public Texture[] debugTextureImages;
     public GameObject debug_Texture;
-
+    public GameObject arduinoInput;
     int debug_Number;
+    int numberFromArduino;
     // Use this for initialization
     void Start()
     {
@@ -43,6 +44,7 @@ public class BackgroundController : MonoBehaviour
          if (manager && manager.IsInitialized())
         {
             closeTrigger = headTracking.GetComponent<HeadTracking>().isClose;
+            numberFromArduino = arduinoInput.GetComponent<ArduinoController>().count;
             if (backgroundImageRaw.texture == null)
             {
                 /* this one */
@@ -57,25 +59,25 @@ public class BackgroundController : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha1) || numberFromArduino == 1)
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[0];
                     debug_Number = 1;
                 }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                else if (Input.GetKeyDown(KeyCode.Alpha2) || numberFromArduino == 2)
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[1];
                     debug_Number = 2;
                 }
-                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                else if (Input.GetKeyDown(KeyCode.Alpha3) || numberFromArduino == 3)
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[2];
                     debug_Number = 3;
                 }
-                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                else if (Input.GetKeyDown(KeyCode.Alpha4) || numberFromArduino == 4)
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[3];

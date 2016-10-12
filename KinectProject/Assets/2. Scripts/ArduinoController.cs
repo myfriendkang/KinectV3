@@ -20,11 +20,9 @@ public class ArduinoController : MonoBehaviour {
         {
             string temp;
             temp = sp.ReadLine();
-            if (temp != null)
-            {
-                count = int.Parse(sp.ReadLine());
-            }
-            
+            count = int.Parse(temp);
+            Debug.Log(temp);
+
         }
         catch (System.Exception)
         {

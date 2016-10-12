@@ -1124,6 +1124,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 855ad72baac67da4d80cfba53b6fa1b4, type: 3}
   - {fileID: 2800000, guid: 6d65ae1e00bf6fb41983e1752c84df04, type: 3}
   debug_Texture: {fileID: 314017570}
+  arduinoInput: {fileID: 1795412387}
 --- !u!4 &1393652548
 Transform:
   m_ObjectHideFlags: 0
