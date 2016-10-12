@@ -3,14 +3,13 @@ using System.Collections;
 using System.IO.Ports;
 
 public class ArduinoController : MonoBehaviour {
-    /*
-    SerialPort sp = new SerialPort("COM5", 9600);
-    public string str = "";
+    
+    SerialPort sp = new SerialPort("COM7", 9600);
+    public int count = 0;
 
 
     void Start()
     {
-     
         sp.Open();
         sp.ReadTimeout = 1;
     }
@@ -21,10 +20,9 @@ public class ArduinoController : MonoBehaviour {
         {
             string temp;
             temp = sp.ReadLine();
-            if (temp != null && temp != " ")
+            if (temp != null)
             {
-                str = temp;
-                //print(temp);
+                count = int.Parse(sp.ReadLine());
             }
             
         }
@@ -33,6 +31,6 @@ public class ArduinoController : MonoBehaviour {
 
         }
     }
-    */
+    
    
 }

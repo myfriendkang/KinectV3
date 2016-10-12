@@ -68,8 +68,4 @@ public class ScreenShot : MonoBehaviour {
         string sFileName = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".png");
         File.WriteAllBytes(sFileName, dataToSave);
     }
-    
-
-
-
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HeadTracking : MonoBehaviour {
+public class HeadTracking : MonoBehaviour
+{
 
 
     [Tooltip("GUI-Text to display status messages.")]
@@ -13,7 +14,8 @@ public class HeadTracking : MonoBehaviour {
     private KinectManager _kinectManager;//= KinectManager.Instance;
     public float headDistance;
     public bool? isClose;
- 
+    Vector3[] posData = new Vector3[100];
+
     void Start()
     {
         _kinectManager = KinectManager.Instance;
@@ -22,7 +24,6 @@ public class HeadTracking : MonoBehaviour {
 
     void Update()
     {
-        // KinectManager kinectManager = KinectManager.Instance;
         headPosValid = false;
         if (_kinectManager && _kinectManager.IsInitialized())
         {
@@ -33,11 +34,11 @@ public class HeadTracking : MonoBehaviour {
                 Vector3 jointHeadPos = _kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head);
                 headPosition = jointHeadPos;
                 headDistance = headPosition.z;
-                if(headDistance < 1.1f) //40 Feet
+                if (headDistance < 1.3f) //40 Feet
                 {
                     isClose = true;
                 }
-                else if(headDistance > 1.1f && headDistance < 1.5f)
+                else if (headDistance >1.3f && headDistance < 2.8f)
                 {
                     isClose = false;
                 }
@@ -54,4 +55,10 @@ public class HeadTracking : MonoBehaviour {
             }
         }
     }
+    
+    public bool DetectMovement()
+    {
+        return false;
+    }
+
 }

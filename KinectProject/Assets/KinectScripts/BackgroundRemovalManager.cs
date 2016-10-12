@@ -55,7 +55,7 @@ public class BackgroundRemovalManager : MonoBehaviour
 	private static BackgroundRemovalManager instance;
     public GameObject backgroundControl;
     public int stageStatus;
-	
+
 	/// <summary>
 	/// Gets the single BackgroundRemovalManager instance.
 	/// </summary>
@@ -315,12 +315,14 @@ public class BackgroundRemovalManager : MonoBehaviour
 			else if(sensorData != null && bHiResSupported && !bKinect1Int && sensorData.color2DepthTexture)
 			{
                 if (backgroundControl.GetComponent<BackgroundController>().stage == 0 && flag == false)
-                {
+                //  if (backgroundControl.GetComponent<newBackgroundController>().stage == 0 && flag == false)
+                    {
                     GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
                     StartCoroutine(TransitionFuc(1.0f));
                     
                 }
-                if (backgroundControl.GetComponent<BackgroundController>().stage == 1)
+                 if (backgroundControl.GetComponent<BackgroundController>().stage == 1)
+               // if (backgroundControl.GetComponent<newBackgroundController>().stage == 1)
                 {
                     GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
                     flag = false;

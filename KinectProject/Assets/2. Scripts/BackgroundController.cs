@@ -18,6 +18,11 @@ public class BackgroundController : MonoBehaviour
     public GameObject headTracking;
     bool sFlag;
     bool dFlag;
+
+    public Texture[] debugTextureImages;
+    public GameObject debug_Texture;
+
+    int debug_Number;
     // Use this for initialization
     void Start()
     {
@@ -40,12 +45,45 @@ public class BackgroundController : MonoBehaviour
             closeTrigger = headTracking.GetComponent<HeadTracking>().isClose;
             if (backgroundImageRaw.texture == null)
             {
+                /* this one */
+                //backgroundImageRaw.transform.localScale = new Vector3(2, -2, 2);
                 backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1); //Flip over 180 degree
                 backgroundImageRaw.texture = manager.GetUsersClrTex();    //Apply Live FOV to Main Texture
+
+                //Debug Texture
+                debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, -0.15f, 0.2f);
+                debug_Texture.GetComponent<GUITexture>().texture = manager.GetUsersClrTex();
+                debug_Number = 0;
             }
-            if (Input.GetMouseButtonDown(0) || (closeTrigger == true && sFlag == false)) //When Trigger!
+            else
             {
-                Debug.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
+                    debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[0];
+                    debug_Number = 1;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
+                    debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[1];
+                    debug_Number = 2;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
+                    debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[2];
+                    debug_Number = 3;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
+                    debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[3];
+                    debug_Number = 4;
+                }
+            }
+            if (closeTrigger == true && sFlag == false) //When Trigger!
+            {
                 test.GetComponent<BackgroundRemovalManager>().flag = true;
                 dustEffect.GetComponent<ParticleSystem>().Play();
                 _mouseButtonStatus = 0;
@@ -61,9 +99,8 @@ public class BackgroundController : MonoBehaviour
                 }
                 
             }
-            if (Input.GetMouseButtonDown(1) || (closeTrigger == false && dFlag == false))
+            if (closeTrigger == false && dFlag == false)
             {
-                Debug.Log("-----------------------------------------------");
                 _mouseButtonStatus = 1;
                 dustEffect.GetComponent<ParticleSystem>().Stop();
                 StartCoroutine(FadeOut(0.0f, 3.0f));
@@ -76,11 +113,35 @@ public class BackgroundController : MonoBehaviour
         }
         if (_fade == true)
         {
+            /* this one */
             backgroundImageRaw.transform.localScale = new Vector3(1, 1, 1);
-            backgroundImageRaw.texture = backgroundImage.texture;
+            if(debug_Number == 1)
+            {
+                backgroundImageRaw.texture = debugTextureImages[0];
+            }
+            else if(debug_Number == 2)
+            {
+                backgroundImageRaw.texture = debugTextureImages[1];
+            }
+            else if (debug_Number == 3)
+            {
+                backgroundImageRaw.texture = debugTextureImages[2];
+            }
+            else if (debug_Number == 4)
+            {
+                backgroundImageRaw.texture = debugTextureImages[3];
+            }
+            else
+            {
+                backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1);
+                backgroundImageRaw.texture = manager.GetUsersClrTex();
+            }
+           
+           // backgroundImageRaw.texture = backgroundImage.texture;
         }
         if(_originRaw == true)
         {
+            /* this one */
             backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1);
             backgroundImageRaw.texture = manager.GetUsersClrTex();
         }
