@@ -23,7 +23,7 @@ public class BackgroundController : MonoBehaviour
     public GameObject debug_Texture;
     public GameObject arduinoInput;
     int debug_Number;
-    int numberFromArduino;
+    int numberFromArduino = 0;
     // Use this for initialization
     void Start()
     {
@@ -86,31 +86,35 @@ public class BackgroundController : MonoBehaviour
             }
             if (closeTrigger == true && sFlag == false) //When Trigger!
             {
-                test.GetComponent<BackgroundRemovalManager>().flag = true;
-                dustEffect.GetComponent<ParticleSystem>().Play();
-                _mouseButtonStatus = 0;
-                StartCoroutine("EmitDust");
-                if (stage == 0)
+                if (numberFromArduino != 0)
                 {
-                    stage = 1;
-                }
-                sFlag = true;
-                if (dFlag)
-                {
-                    dFlag = false;
+                    test.GetComponent<BackgroundRemovalManager>().flag = true;
+                    dustEffect.GetComponent<ParticleSystem>().Play();
+                    _mouseButtonStatus = 0;
+                    StartCoroutine("EmitDust");
+                    if (stage == 0)
+                    {
+                        stage = 1;
+                    }
+                    sFlag = true;
+                    if (dFlag)
+                    {
+                        dFlag = false;
+                    }
                 }
                 
             }
             if (closeTrigger == false && dFlag == false)
             {
-                _mouseButtonStatus = 1;
-                dustEffect.GetComponent<ParticleSystem>().Stop();
-                StartCoroutine(FadeOut(0.0f, 3.0f));
-                dFlag = true;
-                if (sFlag)
-                {
-                    sFlag = false;
-                }
+                    _mouseButtonStatus = 1;
+                    dustEffect.GetComponent<ParticleSystem>().Stop();
+                    StartCoroutine(FadeOut(0.0f, 3.0f));
+                    dFlag = true;
+                    if (sFlag)
+                    {
+                        sFlag = false;
+                    }
+                
             }
         }
         if (_fade == true)
