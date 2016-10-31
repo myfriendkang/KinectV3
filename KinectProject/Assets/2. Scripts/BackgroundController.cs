@@ -47,6 +47,7 @@ public class BackgroundController : MonoBehaviour
             numberFromArduino = arduinoInput.GetComponent<ArduinoController>().count;
             if (backgroundImageRaw.texture == null)
             {
+                Debug.Log("here");
                 /* this one */
                 //backgroundImageRaw.transform.localScale = new Vector3(2, -2, 2);
                 backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1); //Flip over 180 degree
@@ -81,7 +82,7 @@ public class BackgroundController : MonoBehaviour
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[3];
-                    debug_Number = 4;
+                     debug_Number = 4;
                 }
             }
             if (closeTrigger == true && sFlag == false) //When Trigger!
@@ -101,6 +102,23 @@ public class BackgroundController : MonoBehaviour
                     {
                         dFlag = false;
                     }
+                }
+                if(Input.GetKeyDown(KeyCode.P))
+                {
+                   
+                    dustEffect.GetComponent<ParticleSystem>().Play();
+                    _mouseButtonStatus = 0;
+                    StartCoroutine("EmitDust");
+                    if (stage == 0)
+                    {
+                        stage = 1;
+                    }
+                    sFlag = true;
+                    if (dFlag)
+                    {
+                        dFlag = false;
+                    }
+                    test.GetComponent<BackgroundRemovalManager>().flag = true;
                 }
                 
             }
@@ -157,6 +175,7 @@ public class BackgroundController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(FadeOut(0.0f, 3.0f));
+
     }
 
     IEnumerator FadeOut(float aValue, float aTime)
@@ -180,6 +199,7 @@ public class BackgroundController : MonoBehaviour
                 _fade = false;
             }
             StartCoroutine(FadeIn(1, 3.0f));
+           
             yield return null;
         }
     }

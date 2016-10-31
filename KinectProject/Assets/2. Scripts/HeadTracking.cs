@@ -7,7 +7,7 @@ public class HeadTracking : MonoBehaviour
 
     [Tooltip("GUI-Text to display status messages.")]
     public GUIText statusText = null;
-
+    public GUIText statusTextForRotation = null;
     public int playerIndex = 0;
     private Vector3 headPosition;
     private bool headPosValid = false;
@@ -32,13 +32,30 @@ public class HeadTracking : MonoBehaviour
             if (_kinectManager.IsUserTracked(userId) && _kinectManager.IsJointTracked(userId, (int)KinectInterop.JointType.Head))
             {
                 Vector3 jointHeadPos = _kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head);
+                Quaternion headPosRot = _kinectManager.GetJointOrientation(userId, (int)KinectInterop.JointType.Head, true);
                 headPosition = jointHeadPos;
                 headDistance = headPosition.z;
-                if (headDistance < 1.3f) //40 Feet
+                Vector3 newRot = headPosRot * Vector3.forward;
+                /*
+                if (headDistance < 2.0f) //40 Feet
                 {
                     isClose = true;
                 }
-                else if (headDistance >1.3f && headDistance < 2.8f)
+                else if (headDistance >=2.0f && headDistance < 2.8f)
+                {
+                    isClose = false;
+                }
+                else
+                {
+                    isClose = null;
+                }
+                */
+
+                if(newRot.z >= 0.9)
+                {
+                    isClose = true;
+                }
+                else if(newRot.z < 0.9)
                 {
                     isClose = false;
                 }
@@ -50,7 +67,9 @@ public class HeadTracking : MonoBehaviour
                 if (statusText)
                 {
                     string sStatusMsg = string.Format("Head position: {0}", jointHeadPos);
+                    string sStatusMsgRot = string.Format("Head rotation: {0}", newRot);
                     statusText.text = sStatusMsg;
+                    statusTextForRotation.text = sStatusMsgRot;
                 }
             }
         }

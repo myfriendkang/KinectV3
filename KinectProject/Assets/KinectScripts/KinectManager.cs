@@ -156,8 +156,8 @@ public class KinectManager : MonoBehaviour
 	
 	// Kinect body frame data
 	protected KinectInterop.BodyFrameData bodyFrame;
-	//private Int64 lastBodyFrameTime = 0;
-	
+    //private Int64 lastBodyFrameTime = 0;
+    public GameObject arduinoController;
 	// List of all users
 	protected List<Int64> alUserIds = new List<Int64>();
 	protected Dictionary<Int64, int> dictUserIdToIndex = new Dictionary<Int64, int>();
@@ -193,7 +193,7 @@ public class KinectManager : MonoBehaviour
 	//protected System.Threading.Thread kinectReaderThread = null;
 	protected bool kinectReaderRunning = false;
 
-
+    public bool userDetected;
 	/// <summary>
 	/// Gets the single KinectManager instance.
 	/// </summary>
@@ -2205,7 +2205,9 @@ public class KinectManager : MonoBehaviour
 		if(calibrationText != null)
 		{
 			calibrationText.text = "WAITING FOR USERS";
-		}
+            userDetected = false;
+            arduinoController.GetComponent<ArduinoController>().SetUserDetected(false);
+        }
 		
 		Debug.Log("Waiting for users.");
 	}
@@ -3445,8 +3447,11 @@ public class KinectManager : MonoBehaviour
 					{
 						if(calibrationText != null && calibrationText.text != "")
 						{
-							calibrationText.text = "";
-						}
+                            //calibrationText.text = "";
+                            calibrationText.text = "Found you";
+                            userDetected = true;
+                            arduinoController.GetComponent<ArduinoController>().SetUserDetected(true);
+                        }
 					}
 				}
 
@@ -3576,7 +3581,7 @@ public class KinectManager : MonoBehaviour
 			if(calibrationText != null)
 			{
 				calibrationText.text = "WAITING FOR USERS";
-			}
+             }
 		}
 	}
 	
