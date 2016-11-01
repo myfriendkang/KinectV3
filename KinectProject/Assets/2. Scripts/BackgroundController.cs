@@ -47,8 +47,7 @@ public class BackgroundController : MonoBehaviour
             numberFromArduino = arduinoInput.GetComponent<ArduinoController>().count;
             if (backgroundImageRaw.texture == null)
             {
-                Debug.Log("here");
-                /* this one */
+                 /* this one */
                 //backgroundImageRaw.transform.localScale = new Vector3(2, -2, 2);
                 backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1); //Flip over 180 degree
                 backgroundImageRaw.texture = manager.GetUsersClrTex();    //Apply Live FOV to Main Texture

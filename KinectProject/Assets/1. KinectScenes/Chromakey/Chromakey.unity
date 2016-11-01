@@ -1162,6 +1162,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 855ad72baac67da4d80cfba53b6fa1b4, type: 3}
   dustEffect: {fileID: 1236040883}
   removeMgr: {fileID: 762920935}
+  arduino: {fileID: 1795412387}
 --- !u!1001 &1482484853
 Prefab:
   m_ObjectHideFlags: 0
@@ -1397,7 +1398,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1795412389}
-  - 114: {fileID: 1795412388}
   - 114: {fileID: 1795412390}
   m_Layer: 0
   m_Name: Arduino
@@ -1406,18 +1406,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1795412388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1795412387}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51524dbefa141ec42b0e7d33f7fb150c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  count: 0
 --- !u!4 &1795412389
 Transform:
   m_ObjectHideFlags: 0

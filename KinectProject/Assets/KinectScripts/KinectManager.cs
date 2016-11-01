@@ -2206,7 +2206,8 @@ public class KinectManager : MonoBehaviour
 		{
 			calibrationText.text = "WAITING FOR USERS";
             userDetected = false;
-            arduinoController.GetComponent<ArduinoController>().SetUserDetected(false);
+           //arduinoController.GetComponent<ArduinoController>().SetUserDetected(false);
+           arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(false);
         }
 		
 		Debug.Log("Waiting for users.");
@@ -3450,7 +3451,8 @@ public class KinectManager : MonoBehaviour
                             //calibrationText.text = "";
                             calibrationText.text = "Found you";
                             userDetected = true;
-                            arduinoController.GetComponent<ArduinoController>().SetUserDetected(true);
+                            arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
+                            //arduinoController.GetComponent<ArduinoController>().SetUserDetected(true);
                         }
 					}
 				}
