@@ -58,10 +58,8 @@ public class ArduinoSerial : MonoBehaviour {
                 }
                 catch (TimeoutException)
                 {
-
                 }
             }
-            //Debug.Log("Thread Sleep");
             Thread.Sleep(1);
         }
     }

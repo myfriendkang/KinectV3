@@ -9,15 +9,21 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     public GameObject dustEffect;
     public GameObject removeMgr;
     public GameObject arduino;
-
+    public GameObject headTracking;
     public delegate void functionPointer();
 
     private bool _arduinoFlag;
+    private bool? _detectedHead;
+    bool kinectFlag;
+    private bool _firstSceneFlag;
+    private bool _flagP;
     void Start() {
         //Stop smoke effect
         dustEffect.GetComponent<ParticleSystem>().Stop();
-
+        kinectFlag = false;
         _arduinoFlag = false;
+        _firstSceneFlag = true;
+        _flagP = false;
     }
 
     // Update is called once per frame
@@ -25,41 +31,59 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         KinectManager manager = KinectManager.Instance;
         int a = ArduinoSerial.count;
       //  int a = arduino.GetComponent<ArduinoSerial>().
-        Debug.Log("static varable = " + a);
+      //  Debug.Log("static varable = " + a);
         if (manager && manager.IsInitialized())
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            _detectedHead = headTracking.GetComponent<HeadTracking>().isTrigger;
+
+            if (_firstSceneFlag == true)
             {
+                Debug.Log("wnd");
                 backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1);
-                removeMgr.GetComponent<BackgroundRemovalManager>().flag = false;
                 backgroundImageRaw.texture = manager.GetUsersClrTex();
-                StartCoroutine(EmitSmokeEffect(0.5f, false));
-               //_arduinoFlag = false; 
+                _firstSceneFlag = false;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag == false))
+            // problem when it comes back to normal part maybe coroiutine.
+            if (Input.GetKeyDown(KeyCode.Alpha1) )//|| _detectedHead == false )
+            {
+                StartCoroutine(FadeOut(0, 2.0f, manager.GetUsersClrTex()));
+                //removeMgr.GetComponent<BackgroundRemovalManager>().flag = false;
+                StartCoroutine(EmitSmokeEffect(0.5f, false));
+             }
+            //else if(Input.GetKeyDown(KeyCode.Alpha2) )//|| _detectedHead == true)
+            else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag == false && _detectedHead == true))
             {
                 Debug.Log("change the scene to 1");
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
-                StartCoroutine(FadeOut(0, 2.0f, 0));
+                StartCoroutine(FadeOut(0, 2.0f, backgrounds[0]));
                 _arduinoFlag = true;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
-                StartCoroutine(FadeOut(0, 2.0f, 1));
+                StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                StartCoroutine(EmitSmokeEffect(1.5f, true));
-                StartCoroutine(FadeOut(0, 2.0f, 2));
+                StartCoroutine(EmitSmokeEffect(1.5f, true));             
+                StartCoroutine(FadeOut(0, 2.0f, backgrounds[2]));
             }
         }
     }
 
-    void ChangeScene(int index)
+    void ChangeScene(Texture tx)
     {
-           backgroundImageRaw.transform.localScale = new Vector3(1, 1, 1);
-           backgroundImageRaw.texture = backgrounds[index];
+        if ((tx == backgrounds[0]) || (tx == backgrounds[1]) || (tx == backgrounds[2]))
+        {
+            backgroundImageRaw.transform.localScale = new Vector3(1, 1, 1);
+            backgroundImageRaw.texture = tx;
+        }
+        else
+        {
+            removeMgr.GetComponent<BackgroundRemovalManager>().flag = false;
+            backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1);
+            backgroundImageRaw.texture = tx;
+        }
     }
 
     //FadeIn / Out Function for transition
@@ -73,10 +97,9 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             backgroundImageRaw.color = newColor;
             yield return null;
         }
-
     }
 
-    IEnumerator FadeOut(float value, float time, int sceneNumber)
+    IEnumerator FadeOut(float value, float time, Texture tx)
     {
         removeMgr.GetComponent<BackgroundRemovalManager>().flag = true;
         float alphaValue = backgroundImageRaw.color.a;
@@ -90,14 +113,14 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
 
         //FadeOut and FadeIn to main Scene
         //StartCoroutine(TransitionDelay(() => { StartCoroutine(FadeIn(1, 2.0f)); }, 3f));
-        StartCoroutine(TransitionDelay(() => { StartCoroutine(FadeIn(1, 2.0f)); }, 1f, sceneNumber));
+        StartCoroutine(TransitionDelay(() => { StartCoroutine(FadeIn(1, 2.0f)); }, 1f, tx));
     }
-
+    
     //Transition Func overload
-    public IEnumerator TransitionDelay(functionPointer method, float waitTime, int sceneNumber)
+    public IEnumerator TransitionDelay(functionPointer method, float waitTime, Texture tx)
     {
         yield return new WaitForSeconds(waitTime);
-        ChangeScene(sceneNumber);
+        ChangeScene(tx);
         method();
     }
     public IEnumerator TransitionDelay(functionPointer method, float waitTime)
@@ -114,6 +137,7 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         method();
     }
     */
+
     IEnumerator EmitSmokeEffect(float time, bool play)
     {
         yield return new WaitForSeconds(time);

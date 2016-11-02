@@ -43,7 +43,7 @@ public class BackgroundController : MonoBehaviour
         KinectManager manager = KinectManager.Instance;
          if (manager && manager.IsInitialized())
         {
-            closeTrigger = headTracking.GetComponent<HeadTracking>().isClose;
+            closeTrigger = headTracking.GetComponent<HeadTracking>().isTrigger;
             numberFromArduino = arduinoInput.GetComponent<ArduinoController>().count;
             if (backgroundImageRaw.texture == null)
             {
@@ -63,7 +63,7 @@ public class BackgroundController : MonoBehaviour
                 {
                     debug_Texture.GetComponent<Transform>().localScale = new Vector3(0.2f, 0.15f, 0.2f);
                     debug_Texture.GetComponent<GUITexture>().texture = debugTextureImages[0];
-                    debug_Number = 1;
+                    debug_Number = 1; 
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2) || numberFromArduino == 2)
                 {

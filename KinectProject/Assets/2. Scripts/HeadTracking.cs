@@ -13,13 +13,13 @@ public class HeadTracking : MonoBehaviour
     private bool headPosValid = false;
     private KinectManager _kinectManager;//= KinectManager.Instance;
     public float headDistance;
-    public bool? isClose;
+    public bool? isTrigger;
     Vector3[] posData = new Vector3[100];
 
     void Start()
     {
         _kinectManager = KinectManager.Instance;
-        isClose = null;
+        isTrigger = null;
     }
 
     void Update()
@@ -36,32 +36,18 @@ public class HeadTracking : MonoBehaviour
                 headPosition = jointHeadPos;
                 headDistance = headPosition.z;
                 Vector3 newRot = headPosRot * Vector3.forward;
-                /*
-                if (headDistance < 2.0f) //40 Feet
-                {
-                    isClose = true;
-                }
-                else if (headDistance >=2.0f && headDistance < 2.8f)
-                {
-                    isClose = false;
-                }
-                else
-                {
-                    isClose = null;
-                }
-                */
-
+             
                 if(newRot.z >= 0.9)
                 {
-                    isClose = true;
+                    isTrigger = true;
                 }
                 else if(newRot.z < 0.9)
                 {
-                    isClose = false;
+                    isTrigger = false;
                 }
                 else
                 {
-                    isClose = null;
+                    isTrigger = null;
                 }
                 headPosValid = true;
                 if (statusText)
