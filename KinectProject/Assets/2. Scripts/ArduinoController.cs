@@ -5,7 +5,7 @@ using System.Threading;
 
 public class ArduinoController : MonoBehaviour {
     
-    SerialPort sp = new SerialPort("COM6", 9600);
+    SerialPort sp = new SerialPort("COM5", 115200);
     public int count = 0;
     bool flag;
 
@@ -35,20 +35,25 @@ public class ArduinoController : MonoBehaviour {
             }
         }
     }
+    string temp;
     void Update()
     {
         try
         {
-            if (sp.ReadByte() != 0)
+            if (sp.IsOpen)
             {
-                byte rcv;
-                char tmp;
-                rcv = (byte)sp.ReadByte();
-                Debug.Log(rcv);
-                //string temp;
-                //temp = sp.Readbyte();
-                //count = int.Parse(temp);
-                //Debug.Log(sp.ReadByte());
+                temp = sp.ReadLine();
+                Debug.Log(sp.ReadLine());
+                if(temp == "1")
+                {
+                    Debug.Log("First Close");
+                }
+                else if(temp == "41X")
+                {
+                    Debug.Log("2nd Close");
+                }
+               
+                
             }
         }
         catch (System.Exception e)
@@ -57,20 +62,23 @@ public class ArduinoController : MonoBehaviour {
             //throw;
         }
     }
+    
     public void SetUserDetected(bool check)
     {
         if(check == true && flag == false)
         {
-           // sp.Write("c");
+            sp.Write("c");
             Debug.Log("run arduino");
             flag = true;
         }
-       /* else if (check == false)
+      else if (check == false)
         {
             flag = false;
         }
-        */
+        
     }
+    
+
     void OnApplicationQuit()
     {
         Debug.Log("Application ending after " + Time.time + " seconds");

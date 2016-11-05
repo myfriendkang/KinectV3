@@ -38,7 +38,6 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
 
             if (_firstSceneFlag == true)
             {
-                Debug.Log("wnd");
                 backgroundImageRaw.transform.localScale = new Vector3(1, -1, 1);
                 backgroundImageRaw.texture = manager.GetUsersClrTex();
                 _firstSceneFlag = false;
@@ -58,10 +57,11 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[0]));
                 _arduinoFlag = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag == false && _detectedHead == true))
             {
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
+                _arduinoFlag = true;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {

@@ -52,7 +52,6 @@ public class ScreenShot : MonoBehaviour {
     // ScreenShot
     IEnumerator TakePicture()
     {
-        
         yield return new WaitForEndOfFrame();
 
         Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);

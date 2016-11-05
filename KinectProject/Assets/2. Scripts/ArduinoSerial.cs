@@ -6,8 +6,8 @@ using System.Threading;
 
 public class ArduinoSerial : MonoBehaviour {
 
-    private const string SERIAL_PORT = "COM6";
-    private const int SERIAL_BAUD_RATE = 9600;
+    private const string SERIAL_PORT = "COM5";
+    private const int SERIAL_BAUD_RATE = 115200;
     private const int SERIAL_TIMEOUT = 100;
     private Thread _ReadThread;
     private static SerialPort _serialPort;
@@ -47,27 +47,39 @@ public class ArduinoSerial : MonoBehaviour {
             if (_serialPort.IsOpen)
             {
                 try
-                {
+                {   //ARDUINO -> UNITY
                     string value = _serialPort.ReadLine();
-                    int temp = int.Parse(value);
+                    /*
+                    1st cloth = 21X
+                    2nd cloth = 41X
+                    */
+                   int temp = int.Parse(value);
                     if (temp == 1)
                     {
                         ReturnIndex(temp);
-                        Debug.Log("clothe was choosen");
+                        Debug.Log("clothe was choosen #1");
+                    }
+                    else if(temp ==2)
+                    {
+                        ReturnIndex(temp);
+                        Debug.Log("clothe was choosen #2");
                     }
                 }
                 catch (TimeoutException)
                 {
                 }
             }
+
             Thread.Sleep(1);
         }
     }
+
+    //UNITY -> ARDUINO
     public void SetUserDetected(bool check)
     {
         if (check == true && flag == false)
         {
-            //_serialPort.Write("c");
+            _serialPort.Write("c");
             Debug.Log("run arduino!!");
             flag = true;
         }
