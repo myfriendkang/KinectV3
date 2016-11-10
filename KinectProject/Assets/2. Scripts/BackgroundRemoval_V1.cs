@@ -9,10 +9,13 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     public GameObject dustEffect;
     public GameObject removeMgr;
     public GameObject arduino;
+    public GameObject arduinoDoor;
+    //public GameObject arduino_Old;
     public GameObject headTracking;
     public delegate void functionPointer();
 
-    private bool _arduinoFlag;
+    public bool _arduinoFlag_1;
+    public bool _arduinoFlag_2;
     private bool? _detectedHead;
     bool kinectFlag;
     private bool _firstSceneFlag;
@@ -21,7 +24,8 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         //Stop smoke effect
         dustEffect.GetComponent<ParticleSystem>().Stop();
         kinectFlag = false;
-        _arduinoFlag = false;
+        _arduinoFlag_1 = false;
+        _arduinoFlag_2 = false;
         _firstSceneFlag = true;
         _flagP = false;
     }
@@ -29,9 +33,8 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         KinectManager manager = KinectManager.Instance;
+       // int b = arduino_Old.GetComponent<ArduinoController>().count;
         int a = ArduinoSerial.count;
-      //  int a = arduino.GetComponent<ArduinoSerial>().
-      //  Debug.Log("static varable = " + a);
         if (manager && manager.IsInitialized())
         {
             _detectedHead = headTracking.GetComponent<HeadTracking>().isTrigger;
@@ -50,18 +53,21 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
                 StartCoroutine(EmitSmokeEffect(0.5f, false));
              }
             //else if(Input.GetKeyDown(KeyCode.Alpha2) )//|| _detectedHead == true)
-            else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag == false && _detectedHead == true))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag_1 == false && _detectedHead == true)) //|| (b==1 && _arduinoFlag == false && _detectedHead== true))
             {
                 Debug.Log("change the scene to 1");
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[0]));
-                _arduinoFlag = true;
+                _arduinoFlag_1 = true;
+                
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag == false && _detectedHead == true))
+            else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag_2 == false && _detectedHead == true)) //|| (b == 2 && _arduinoFlag == false && _detectedHead == true))
             {
+                Debug.Log("change the scene to 2");
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
-                _arduinoFlag = true;
+                _arduinoFlag_2 = true;
+                StartCoroutine(TestDoorOpen(15.0f));
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
@@ -149,6 +155,12 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         {
             dustEffect.GetComponent<ParticleSystem>().Stop();
         }
+    }
+    IEnumerator TestDoorOpen(float time)
+    {
+        yield return new WaitForSeconds(time);
+        arduinoDoor.GetComponent<ArduinoForDoor>().OperateDoorOpen(true); 
+
     }
     
 }

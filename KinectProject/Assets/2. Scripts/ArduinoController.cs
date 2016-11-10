@@ -8,7 +8,6 @@ public class ArduinoController : MonoBehaviour {
     SerialPort sp = new SerialPort("COM5", 115200);
     public int count = 0;
     bool flag;
-
     void Start()
     {
         OpenConnection();
@@ -46,11 +45,13 @@ public class ArduinoController : MonoBehaviour {
                 Debug.Log(sp.ReadLine());
                 if(temp == "1")
                 {
-                    Debug.Log("First Close");
+                    count = 1;
+                    Debug.Log("First Cloth");
                 }
-                else if(temp == "41X")
+                else if(temp == "2")
                 {
-                    Debug.Log("2nd Close");
+                    count = 2;
+                    Debug.Log("2nd Cloth");
                 }
                
                 

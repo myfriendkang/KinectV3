@@ -12,9 +12,12 @@ public class ArduinoSerial : MonoBehaviour {
     private Thread _ReadThread;
     private static SerialPort _serialPort;
     private static bool _CONTINUE;
+    private static bool _flag_1;
+    private static bool _flag_2;
     bool flag;
 
     public static int count;
+    public GameObject rmvBack;
 
     // Use this for initialization
     void Start () {
@@ -26,6 +29,8 @@ public class ArduinoSerial : MonoBehaviour {
         _CONTINUE = true;
         _ReadThread.Start();
         flag = false;
+        _flag_1 = false;
+        _flag_2 = false;
 	}
 	
 	// Update is called once per frame
@@ -47,22 +52,26 @@ public class ArduinoSerial : MonoBehaviour {
             if (_serialPort.IsOpen)
             {
                 try
-                {   //ARDUINO -> UNITY
+                {
+                    //ARDUINO -> UNITY
                     string value = _serialPort.ReadLine();
-                    /*
-                    1st cloth = 21X
-                    2nd cloth = 41X
-                    */
-                   int temp = int.Parse(value);
-                    if (temp == 1)
+                    Debug.Log("connecting...." + value);
+                    int temp = int.Parse(value);
+                    if (temp == 1 && _flag_1 == false)
                     {
                         ReturnIndex(temp);
-                        Debug.Log("clothe was choosen #1");
+                        Debug.Log("cloth was choosen #1");
+                        _serialPort.Write("d");
+                        Debug.Log("reset all the flags");
+                        _flag_1 = true;
                     }
-                    else if(temp ==2)
+                    else if(temp ==2 && _flag_2 == false)
                     {
                         ReturnIndex(temp);
-                        Debug.Log("clothe was choosen #2");
+                        Debug.Log("cloth was choosen #2");
+                        _serialPort.Write("d");
+                        Debug.Log("reset all the flags");
+                        _flag_2 = true;
                     }
                 }
                 catch (TimeoutException)
@@ -71,6 +80,7 @@ public class ArduinoSerial : MonoBehaviour {
             }
 
             Thread.Sleep(1);
+            
         }
     }
 
@@ -79,11 +89,13 @@ public class ArduinoSerial : MonoBehaviour {
     {
         if (check == true && flag == false)
         {
-            _serialPort.Write("c");
+           // _serialPort.Write("c");
+            //_serialPort.Write("d");
             Debug.Log("run arduino!!");
             flag = true;
         }
     }
+
     static void ReturnIndex(int num)
     {
         count = num;
