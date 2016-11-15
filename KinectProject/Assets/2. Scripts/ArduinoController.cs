@@ -8,10 +8,12 @@ public class ArduinoController : MonoBehaviour {
     SerialPort sp = new SerialPort("COM5", 115200);
     public int count = 0;
     bool flag;
+    public bool ActualTesting;
     void Start()
     {
         OpenConnection();
         flag = false;
+        ActualTesting = false;
     }
     public void OpenConnection()
     {
@@ -68,7 +70,11 @@ public class ArduinoController : MonoBehaviour {
     {
         if(check == true && flag == false)
         {
-            sp.Write("c");
+            if(ActualTesting == true)
+            {
+                Debug.Log("Actual Testing");
+            }
+            //sp.Write("c");
             Debug.Log("run arduino");
             flag = true;
         }

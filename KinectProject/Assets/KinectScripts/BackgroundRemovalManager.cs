@@ -109,7 +109,6 @@ public class BackgroundRemovalManager : MonoBehaviour
 		{
 			return sensorData.depth2ColorTexture;
 		}
-		
 		return foregroundTex;
 	}
 
@@ -126,7 +125,6 @@ public class BackgroundRemovalManager : MonoBehaviour
 			else
 				return sensorData.bodyIndexTexture;
 		}
-
 		return null;
 	}
 	

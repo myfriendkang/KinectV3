@@ -18,6 +18,7 @@ public class ArduinoSerial : MonoBehaviour {
 
     public static int count;
     public GameObject rmvBack;
+    public bool ActualTesting;
 
     // Use this for initialization
     void Start () {
@@ -31,6 +32,7 @@ public class ArduinoSerial : MonoBehaviour {
         flag = false;
         _flag_1 = false;
         _flag_2 = false;
+
 	}
 	
 	// Update is called once per frame
@@ -89,9 +91,13 @@ public class ArduinoSerial : MonoBehaviour {
     {
         if (check == true && flag == false)
         {
-           // _serialPort.Write("c");
-            //_serialPort.Write("d");
-            Debug.Log("run arduino!!");
+            if (ActualTesting == true)
+            {
+                Debug.Log("run arduino!!");
+                _serialPort.Write("c");
+                _serialPort.Write("d");
+            }
+            Debug.Log("only Kinect Testing!!");
             flag = true;
         }
     }

@@ -25,8 +25,6 @@ public class ArduinoForDoor : MonoBehaviour
         _CONTINUE = true;
         _ReadThread.Start();
         flag = false;
-
-
     }
 
     // Update is called once per frame
@@ -34,6 +32,7 @@ public class ArduinoForDoor : MonoBehaviour
     {
 
     }
+
     void OnApplicationQuit()
     {
         _CONTINUE = false;
@@ -41,6 +40,7 @@ public class ArduinoForDoor : MonoBehaviour
         _serialPort.Close();
         flag = false;
     }
+
     private static void Read()
     {
         //Debug.Log("Start Thread");
@@ -56,9 +56,7 @@ public class ArduinoForDoor : MonoBehaviour
                 {
                 }
             }
-
             Thread.Sleep(1);
-
         }
     }
 
