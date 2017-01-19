@@ -243,7 +243,7 @@ GUITexture:
   m_GameObject: {fileID: 314017570}
   m_Enabled: 1
   m_Texture: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.491}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.491}
   m_PixelInset:
     serializedVersion: 2
     x: 0
@@ -262,7 +262,7 @@ Transform:
   m_GameObject: {fileID: 314017570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.15, y: 0.84, z: 1}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -456,7 +456,7 @@ MonoBehaviour:
   autoHeightAngle: 0
   computeUserMap: 3
   computeColorMap: 1
-  computeInfraredMap: 0
+  computeInfraredMap: 1
   displayUserMap: 0
   displayColorMap: 0
   displaySkeletonLines: 0
@@ -471,7 +471,7 @@ MonoBehaviour:
   ignoreInferredJoints: 0
   ignoreZCoordinates: 0
   lateUpdateAvatars: 0
-  smoothing: 1
+  smoothing: 3
   useBoneOrientationConstraints: 0
   allowTurnArounds: 0
   allowedHandRotations: 1

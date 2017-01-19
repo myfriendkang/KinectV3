@@ -33,7 +33,7 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         KinectManager manager = KinectManager.Instance;
-       // int b = arduino_Old.GetComponent<ArduinoController>().count;
+
         int a = ArduinoSerial.count;
         if (manager && manager.IsInitialized())
         {
@@ -49,17 +49,14 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Alpha1) )//|| _detectedHead == false )
             {
                 StartCoroutine(FadeOut(0, 2.0f, manager.GetUsersClrTex()));
-                //removeMgr.GetComponent<BackgroundRemovalManager>().flag = false;
                 StartCoroutine(EmitSmokeEffect(0.5f, false));
              }
-            //else if(Input.GetKeyDown(KeyCode.Alpha2) )//|| _detectedHead == true)
             else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag_1 == false && _detectedHead == true)) //|| (b==1 && _arduinoFlag == false && _detectedHead== true))
             {
                 Debug.Log("change the scene to 1");
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[0]));
-                _arduinoFlag_1 = true;
-                
+                _arduinoFlag_1 = true; 
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag_2 == false && _detectedHead == true)) //|| (b == 2 && _arduinoFlag == false && _detectedHead == true))
             {
@@ -134,15 +131,6 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         method();
     }
-
-     /*
-    public IEnumerator TransitionDelay(Action method, float waitTime)
-    {
-        Debug.Log("delegate Coroutine!");
-        yield return new WaitForSeconds(waitTime);
-        method();
-    }
-    */
 
     IEnumerator EmitSmokeEffect(float time, bool play)
     {

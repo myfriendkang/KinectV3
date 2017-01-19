@@ -263,8 +263,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 			}
 
 			// erode & dilate iterations
-			//sensorData.erodeIterations = erodeIterations;
-			//sensorData.dilateIterations = dilateIterations;
+			sensorData.erodeIterations = erodeIterations;
+		   sensorData.dilateIterations = dilateIterations;
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -351,29 +351,12 @@ public class BackgroundRemovalManager : MonoBehaviour
             }
 			else if(sensorData != null && bHiResSupported && !bKinect1Int && sensorData.color2DepthTexture)
 			{
-                /*
-                                if (backgroundControl.GetComponent<BackgroundController>().stage == 0 && flag == false)
-                                //  if (backgroundControl.GetComponent<newBackgroundController>().stage == 0 && flag == false)
-                                    {
-                                    GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
-                                    StartCoroutine(TransitionFuc(1.0f));
-                                }
-                                 if (backgroundControl.GetComponent<BackgroundController>().stage == 1)
-                               // if (backgroundControl.GetComponent<newBackgroundController>().stage == 1)
-                                {
-                                    GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
-                                    flag = false;
-                                }
-                */
                 //This Section!
                 if (flag == true)
                 {
                     GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
                     //   GUI.DrawTexture(foregroundRect, sensorData.alphaBodyTexture);
                 }
-              //  if (flag == false)
-               //GUI.DrawTexture(foregroundRect, sensorData.color2DepthTexture);
-                //StartCoroutine(TransitionFuc(1.0f));
 			}
 			else if(sensorData != null && !bKinect1Int && sensorData.depth2ColorTexture)
 			{
