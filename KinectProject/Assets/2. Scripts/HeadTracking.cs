@@ -14,10 +14,13 @@ public class HeadTracking : MonoBehaviour
     private KinectManager _kinectManager;//= KinectManager.Instance;
     public float headDistance;
     public bool? isTrigger;
+    public bool headRotLocked;
     Vector3[] posData = new Vector3[100];
+ 
 
     void Start()
     {
+        headRotLocked = false;
         _kinectManager = KinectManager.Instance;
         isTrigger = null;
     }
@@ -34,11 +37,13 @@ public class HeadTracking : MonoBehaviour
                 Vector3 jointHeadPos = _kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head);
                 Quaternion headPosRot = _kinectManager.GetJointOrientation(userId, (int)KinectInterop.JointType.Head, true);
                 headPosition = jointHeadPos;
+             
                 headDistance = headPosition.z;
                 Vector3 newRot = headPosRot * Vector3.forward;
-             
-                if(newRot.z >= 0.9)
+              //  Debug.Log(newRot.z);
+                if(newRot.z >= 0.95)
                 {
+                    headRotLocked = true;
                     isTrigger = true;
                 }
                 else if(newRot.z < 0.9)

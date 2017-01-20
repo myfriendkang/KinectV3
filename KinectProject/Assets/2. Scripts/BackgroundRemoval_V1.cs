@@ -5,6 +5,7 @@ using System.Collections;
 public class BackgroundRemoval_V1 : MonoBehaviour {
 
     public GUITexture backgroundImageRaw; //Raw Kinect FOV
+    //public 
     public Texture[] backgrounds;
     public GameObject dustEffect;
     public GameObject removeMgr;

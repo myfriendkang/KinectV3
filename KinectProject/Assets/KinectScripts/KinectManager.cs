@@ -2635,7 +2635,8 @@ public class KinectManager : MonoBehaviour
 						
 						if(index >= 0 && index < sensorData.bodyCount)
 						{
-							DrawSkeleton(usersLblTex, ref bodyFrame.bodyData[index]);
+                            //DrawSkeleton(usersLblTex, ref bodyFrame.bodyData[index]);
+                           
 						}
 					}
 				}
