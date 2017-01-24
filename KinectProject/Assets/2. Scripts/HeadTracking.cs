@@ -40,8 +40,8 @@ public class HeadTracking : MonoBehaviour
              
                 headDistance = headPosition.z;
                 Vector3 newRot = headPosRot * Vector3.forward;
-              //  Debug.Log(newRot.z);
-                if(newRot.z >= 0.95)
+
+                if (newRot.z >= 0.95)
                 {
                     headRotLocked = true;
                     isTrigger = true;

@@ -108,12 +108,8 @@ public class JointOverlayer : MonoBehaviour
             Vector3 posJointSpine = manager.GetJointPosColorOverlay(userId, cJointIndex, foregroundCamera, backgroundRect);
             if (manager.IsJointTracked (userId, iJointIndex)) 
 			{
-		
-
-				if (posJoint != Vector3.zero) 
+    			if (posJoint != Vector3.zero) 
 				{
-//						debugText.text = string.Format("{0} - {1}", trackedJoint, posJoint);
-
 					if (overlayObject) 
 					{
 						overlayObject.position = posJoint;

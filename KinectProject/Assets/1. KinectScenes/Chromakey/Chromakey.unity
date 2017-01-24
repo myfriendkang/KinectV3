@@ -297,7 +297,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 390746281}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -504,6 +504,7 @@ GameObject:
   - 114: {fileID: 762920940}
   - 114: {fileID: 762920936}
   - 114: {fileID: 762920937}
+  - 114: {fileID: 762920941}
   m_Layer: 0
   m_Name: KinectController
   m_TagString: Untagged
@@ -526,7 +527,7 @@ MonoBehaviour:
   foregroundCamera: {fileID: 1551283661}
   colorCameraResolution: 1
   computeBodyTexOnly: 0
-  erodeIterations: 1
+  erodeIterations: 0
   dilateIterations: 0
   debugText: {fileID: 0}
   backgroundControl: {fileID: 1393652546}
@@ -553,7 +554,7 @@ MonoBehaviour:
   rightHand: {fileID: 1848684310}
   leftHand: {fileID: 390746285}
   chest: {fileID: 836277630}
-  movingThreshold: 1.5
+  movingThreshold: 0
   debugCube: {fileID: 954473979}
 --- !u!114 &762920938
 MonoBehaviour:
@@ -637,6 +638,23 @@ MonoBehaviour:
   head: {fileID: 1974271834}
   left: {fileID: 390746281}
   headRot: {fileID: 1126099174}
+  defaultTexture: {fileID: 2800000, guid: cd817e24f70b3f84893f0ccd7b953509, type: 3}
+  printingTexture: {fileID: 0}
+--- !u!114 &762920941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 762920935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134f94511bf62274686e26364b078d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture2D: {fileID: 0}
+  printerName: 
+  copies: 1
+  inputField: {fileID: 0}
 --- !u!1 &812993604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1729,7 +1747,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1974271834}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
