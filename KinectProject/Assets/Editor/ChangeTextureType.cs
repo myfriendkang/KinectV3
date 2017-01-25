@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 
+[ExecuteInEditMode]
 public class ChangeTextureType : AssetPostprocessor
 {
     void OnPreprocessTexture()

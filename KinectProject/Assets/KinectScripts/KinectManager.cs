@@ -2434,9 +2434,11 @@ public class KinectManager : MonoBehaviour
 			}
 		}
 	}
-	
+    bool isFlagg = false;
 	void Update() 
 	{
+
+        
 		if(kinectInitialized)
 		{
 			if(!kinectReaderRunning)
@@ -2455,18 +2457,31 @@ public class KinectManager : MonoBehaviour
 				{
 					//int userIndex = controller ? controller.playerIndex : -1;
 					Int64 userId = controller ? controller.playerId : 0;
-					
-					//if((userIndex >= 0) && (userIndex < alUserIds.Count))
-					if(userId != 0 && dictUserIdToIndex.ContainsKey(userId))
+              
+                    //if((userIndex >= 0) && (userIndex < alUserIds.Count))
+                    if (userId != 0 && dictUserIdToIndex.ContainsKey(userId))
 					{
 						//Int64 userId = alUserIds[userIndex];
 						controller.UpdateAvatar(userId);
 					}
 				}
 			}
-
-			// check for gestures
-			foreach(Int64 userId in alUserIds)
+            if (isFlagg == false)
+            {
+                isTracked = headTrack.GetComponent<HeadTracking>().headFlagWithKinectDetected;
+                calibrationText.text = "Found you";
+                userDetected = true;
+                if(isTracked == true)
+                {
+                    Debug.Log("Just once");
+                    arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
+                    isFlagg = true;
+                }
+                
+            }
+          
+            // check for gestures
+            foreach (Int64 userId in alUserIds)
 			{
 				if(!playerGesturesData.ContainsKey(userId))
 					continue;
@@ -2543,7 +2558,8 @@ public class KinectManager : MonoBehaviour
 			}
 			
 		}
-	}
+        
+    }
 
 	void LateUpdate()
 	{
@@ -3413,8 +3429,9 @@ public class KinectManager : MonoBehaviour
 		// rearrange the remaining users
 		RearrangeUserIndices();
 	}
-
-	// Adds UserId to the list of users
+    public GameObject headTrack;
+    bool isTracked = false;
+    // Adds UserId to the list of users
     protected virtual void CalibrateUser(Int64 userId, int bodyIndex)
     {
 		if(!alUserIds.Contains(userId))
@@ -3449,14 +3466,25 @@ public class KinectManager : MonoBehaviour
 					{
 						if(calibrationText != null && calibrationText.text != "")
 						{
-                            //calibrationText.text = "";
-                            calibrationText.text = "Found you";
-                            userDetected = true;
-                            arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
+                           
+                             /*
+                            if (isTracked == true)
+                            {
+                                Debug.Log("got it");
+                                //calibrationText.text = "";
+                                calibrationText.text = "Found you";
+                                userDetected = true;
+                                arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
+                            }
+                            */
                             //arduinoController.GetComponent<ArduinoController>().SetUserDetected(true);
                         }
 					}
 				}
+               // else
+                //{
+                 //   GameObject.Find("HeadTracker").GetComponent<HeadTracking>().headFlagWithKinectDetected = false;
+               // }
 
 				// calibrates the respective avatar controllers
 				for(int i = 0; i < avatarControllers.Count; i++)

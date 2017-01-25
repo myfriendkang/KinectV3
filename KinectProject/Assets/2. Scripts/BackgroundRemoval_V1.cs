@@ -21,6 +21,9 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     bool kinectFlag;
     private bool _firstSceneFlag;
     private bool _flagP;
+
+    public bool firstSeceneChanged;
+    public bool secondSceneChanged;
     void Start() {
         //Stop smoke effect
         dustEffect.GetComponent<ParticleSystem>().Stop();
@@ -29,6 +32,9 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         _arduinoFlag_2 = false;
         _firstSceneFlag = true;
         _flagP = false;
+
+        firstSeceneChanged = false;
+        secondSceneChanged = false;
     }
 
     // Update is called once per frame
@@ -51,10 +57,21 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             {
                 StartCoroutine(FadeOut(0, 2.0f, manager.GetUsersClrTex()));
                 StartCoroutine(EmitSmokeEffect(0.5f, false));
-             }
+                if(firstSeceneChanged == true && secondSceneChanged == true)
+                {
+                    firstSeceneChanged = false;
+                    secondSceneChanged = false;
+                }
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag_1 == false && _detectedHead == true)) //|| (b==1 && _arduinoFlag == false && _detectedHead== true))
             {
                 Debug.Log("change the scene to 1");
+                //Capture Data;
+                if(firstSeceneChanged == false)
+                {
+                    firstSeceneChanged = true;
+                }
+                //
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[0]));
                 _arduinoFlag_1 = true; 
@@ -62,6 +79,12 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag_2 == false && _detectedHead == true)) //|| (b == 2 && _arduinoFlag == false && _detectedHead == true))
             {
                 Debug.Log("change the scene to 2");
+                //Capture Data
+                if(secondSceneChanged == false)
+                {
+                    secondSceneChanged = true;
+                }
+                //
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
                 _arduinoFlag_2 = true;

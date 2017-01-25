@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
-using UnityEditor;
+//using UnityEditor;
 
 public class ScreenShot : MonoBehaviour {
 
@@ -30,6 +30,9 @@ public class ScreenShot : MonoBehaviour {
 
     bool doPrinting;
     Texture2D test;
+    int MAXCOUNT = 5;
+    int screenShotCount = 0;
+
     void Start () {
          manager = KinectManager.Instance;
         doPrinting = false;
@@ -51,12 +54,19 @@ public class ScreenShot : MonoBehaviour {
             doPrinting = false;
             PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
         }
-        if (head.GetComponent<HeadDist>().headLocked == true && left.GetComponent<LeftDist>().leftLocked == true && headRot.GetComponent<HeadTracking>().headRotLocked == true)
+        if (GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().firstSeceneChanged == true || GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().secondSceneChanged == true)
         {
-            head.GetComponent<HeadDist>().headLocked = false;
-            left.GetComponent<LeftDist>().leftLocked = false;
-            headRot.GetComponent<HeadTracking>().headRotLocked = false;
-            StartCoroutine("TakePicture");
+            if (head.GetComponent<HeadDist>().headLocked == true && left.GetComponent<LeftDist>().leftLocked == true && headRot.GetComponent<HeadTracking>().headRotLocked == true)
+            {
+                head.GetComponent<HeadDist>().headLocked = false;
+                left.GetComponent<LeftDist>().leftLocked = false;
+                headRot.GetComponent<HeadTracking>().headRotLocked = false;
+                if (screenShotCount <= MAXCOUNT)
+                {
+                    StartCoroutine("TakePicture");
+                }
+                
+            }
         }
         long userId = manager.GetUserIdByIndex(playerIndex);
     }
@@ -86,8 +96,8 @@ public class ScreenShot : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("SHoT!!");
-      
-        Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        screenShotCount++;
+          Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         //defaultTexture = new Texture2D(defaultTexture.width, defaultTexture.height, TextureFormat.RGB24, false);
         screenTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
         defaultTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
@@ -110,7 +120,8 @@ public class ScreenShot : MonoBehaviour {
             File.WriteAllBytes(sFileName2, dataToSave);
         }).Start();
         printNum++;
-        if(printNum == 3)
+
+        if (printNum == 3)
         {
             printingTexture = screenTexture;
             doPrinting = true;

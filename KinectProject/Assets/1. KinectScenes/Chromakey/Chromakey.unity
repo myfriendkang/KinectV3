@@ -297,7 +297,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 390746281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -504,7 +504,6 @@ GameObject:
   - 114: {fileID: 762920940}
   - 114: {fileID: 762920936}
   - 114: {fileID: 762920937}
-  - 114: {fileID: 762920941}
   m_Layer: 0
   m_Name: KinectController
   m_TagString: Untagged
@@ -602,6 +601,7 @@ MonoBehaviour:
   gesturesDebugText: {fileID: 0}
   arduinoController: {fileID: 1795412387}
   userDetected: 0
+  headTrack: {fileID: 1126099174}
 --- !u!4 &762920939
 Transform:
   m_ObjectHideFlags: 0
@@ -640,21 +640,6 @@ MonoBehaviour:
   headRot: {fileID: 1126099174}
   defaultTexture: {fileID: 2800000, guid: cd817e24f70b3f84893f0ccd7b953509, type: 3}
   printingTexture: {fileID: 0}
---- !u!114 &762920941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 762920935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 134f94511bf62274686e26364b078d93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  texture2D: {fileID: 0}
-  printerName: 
-  copies: 1
-  inputField: {fileID: 0}
 --- !u!1 &812993604
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +831,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 954473979}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -1036,6 +1021,7 @@ MonoBehaviour:
   playerIndex: 0
   headDistance: 0
   headRotLocked: 0
+  headFlagWithKinectDetected: 0
 --- !u!4 &1126099176
 Transform:
   m_ObjectHideFlags: 0
@@ -1241,6 +1227,8 @@ MonoBehaviour:
   headTracking: {fileID: 1126099174}
   _arduinoFlag_1: 0
   _arduinoFlag_2: 0
+  firstSeceneChanged: 0
+  secondSceneChanged: 0
 --- !u!1001 &1482484853
 Prefab:
   m_ObjectHideFlags: 0
@@ -1492,7 +1480,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1644835040}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -1747,7 +1735,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1974271834}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1

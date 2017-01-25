@@ -9,7 +9,7 @@ public class LeftDist : MonoBehaviour {
     Vector3 temp;
     bool flag;
     public GameObject debugBox;
-    int MAX = 60;
+    int MAX = 80;
 
     public bool leftLocked;
     // Use this for initialization
