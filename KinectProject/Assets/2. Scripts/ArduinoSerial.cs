@@ -14,10 +14,10 @@ public class ArduinoSerial : MonoBehaviour {
     private static bool _CONTINUE;
     private static bool _flag_1;
     private static bool _flag_2;
+    private static bool _flag_3;
     bool flag;
-
     public static int count;
-    public GameObject rmvBack;
+    public static bool phoneChecked = false;
     public bool ActualTesting;
 
     // Use this for initialization
@@ -32,8 +32,9 @@ public class ArduinoSerial : MonoBehaviour {
         flag = false;
         _flag_1 = false;
         _flag_2 = false;
-
-	}
+        _flag_3 = false;
+        phoneChecked = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -75,6 +76,14 @@ public class ArduinoSerial : MonoBehaviour {
                         Debug.Log("reset all the flags");
                         _flag_2 = true;
                     }
+                    if(temp == 6 && _flag_3 == false)
+                    {
+                        Debug.Log("Phone Ring!");
+                        phoneChecked = true;
+                        //ReturnPhone();
+                        _flag_3 = true;
+                        // phoneChecked = false;
+                    }
                 }
                 catch (TimeoutException)
                 {
@@ -105,5 +114,16 @@ public class ArduinoSerial : MonoBehaviour {
     static void ReturnIndex(int num)
     {
         count = num;
+    }
+
+    public static void ReturnPhone()
+    {
+        phoneChecked = true;
+
+    }
+
+    public Boolean GetPhoneCheck()
+    {
+        return phoneChecked;
     }
 }

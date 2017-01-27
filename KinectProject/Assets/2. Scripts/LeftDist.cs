@@ -9,7 +9,7 @@ public class LeftDist : MonoBehaviour {
     Vector3 temp;
     bool flag;
     public GameObject debugBox;
-    int MAX = 80;
+    int MAX = 50;
 
     public bool leftLocked;
     // Use this for initialization
@@ -22,7 +22,7 @@ public class LeftDist : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (frameCount <= MAX)
         {
@@ -52,7 +52,7 @@ public class LeftDist : MonoBehaviour {
             flag = false;
 
             frameCount = 0;
-            lastPos = currentPos;
+         //   lastPos = currentPos;
         }
     }
 }

@@ -3,11 +3,6 @@ using System.Collections;
 
 public class HeadTracking : MonoBehaviour
 {
-
-
-    [Tooltip("GUI-Text to display status messages.")]
-    public GUIText statusText = null;
-    public GUIText statusTextForRotation = null;
     public int playerIndex = 0;
     private Vector3 headPosition;
     private bool headPosValid = false;
@@ -16,8 +11,7 @@ public class HeadTracking : MonoBehaviour
     public bool? isTrigger;
     public bool headRotLocked;
     public bool headFlagWithKinectDetected;
-    Vector3[] posData = new Vector3[100];
- 
+    public GameObject arduino;
 
     void Start()
     {
@@ -26,28 +20,37 @@ public class HeadTracking : MonoBehaviour
         _kinectManager = KinectManager.Instance;
         isTrigger = null;
     }
-    bool isFlag = false;
+    bool isPhoneRinged = false;
     void Update()
     {
         headPosValid = false;
         if (_kinectManager && _kinectManager.IsInitialized())
         {
             long userId = _kinectManager.GetUserIdByIndex(playerIndex);
-
-            if (_kinectManager.IsUserTracked(userId) && _kinectManager.IsJointTracked(userId, (int)KinectInterop.JointType.Head))
+            if (/*_kinectManager.IsUserTracked(userId) &&*/ _kinectManager.IsJointTracked(userId, (int)KinectInterop.JointType.Head))
             {
                 Vector3 jointHeadPos = _kinectManager.GetJointPosition(userId, (int)KinectInterop.JointType.Head);
                 Quaternion headPosRot = _kinectManager.GetJointOrientation(userId, (int)KinectInterop.JointType.Head, true);
                 headPosition = jointHeadPos;
-
-                if (headDistance < 1.8f && headDistance >= 1.5f)
+                // Debug.Log(headDistance);
+                isPhoneRinged = arduino.GetComponent<ArduinoSerial>().GetPhoneCheck();
+                Debug.Log("FUCKKCKK  " + isPhoneRinged);
+                
+                if (isPhoneRinged == true)
                 {
-                       headFlagWithKinectDetected = true;
+                   // Debug.Log("at head tracking");
+                    if (headDistance < 1.8f && headDistance >= 1.4f)
+                    {
+                        Debug.Log("WTF arduino");
+                        headFlagWithKinectDetected = true;
+                    }
                 }
+                
+
                 headDistance = headPosition.z;
                 Vector3 newRot = headPosRot * Vector3.forward;
 
-                if (newRot.z >= 0.95)
+                if (newRot.z >= 0.9)
                 {
                     headRotLocked = true;
                     isTrigger = true;
@@ -61,13 +64,6 @@ public class HeadTracking : MonoBehaviour
                     isTrigger = null;
                 }
                 headPosValid = true;
-                if (statusText)
-                {
-                    string sStatusMsg = string.Format("Head position: {0}", jointHeadPos);
-                    string sStatusMsgRot = string.Format("Head rotation: {0}", newRot);
-                    statusText.text = sStatusMsg;
-                    statusTextForRotation.text = sStatusMsgRot;
-                }
             }
         }
     }

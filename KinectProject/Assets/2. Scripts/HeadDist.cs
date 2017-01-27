@@ -9,7 +9,7 @@ public class HeadDist : MonoBehaviour {
     Vector3 temp;
     bool flag;
     public GameObject debugBox;
-    int MAX = 80;
+    int MAX = 65;
     public bool headLocked;
     // Use this for initialization
     void Awake()
@@ -21,7 +21,7 @@ public class HeadDist : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (frameCount <= MAX)
         {
@@ -50,7 +50,7 @@ public class HeadDist : MonoBehaviour {
                 debugBox.SetActive(false);
             }
             flag = false;
-            lastPos = currentPos;
+            //lastPos = currentPos;
         }
     }
 }

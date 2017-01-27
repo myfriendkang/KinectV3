@@ -18,7 +18,6 @@ public class ScreenShot : MonoBehaviour {
     public GUIText infoText;
     // Use this for initialization
     public GameObject orbs;
-    KinectManager manager;
     public int playerIndex = 0;
 
     public GameObject head;
@@ -30,47 +29,58 @@ public class ScreenShot : MonoBehaviour {
 
     bool doPrinting;
     Texture2D test;
-    int MAXCOUNT = 5;
+    int MAXCOUNT = 3;
     int screenShotCount = 0;
 
+    public bool testForPrinting;
+
     void Start () {
-         manager = KinectManager.Instance;
         doPrinting = false;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonDown(2))
         {
-            StartCoroutine("CountdownAndTakePicture");
+            StartCoroutine("TakePicture");
         }
         if (Input.GetKeyDown(KeyCode.F11))
         {
             PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
         }
-        if(doPrinting == true)
+        if (testForPrinting == true)
         {
-            Debug.Log("LETS PRINTING NOW");
-            doPrinting = false;
-            PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
-        }
-        if (GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().firstSeceneChanged == true || GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().secondSceneChanged == true)
-        {
-            if (head.GetComponent<HeadDist>().headLocked == true && left.GetComponent<LeftDist>().leftLocked == true && headRot.GetComponent<HeadTracking>().headRotLocked == true)
+            if (doPrinting == true)
             {
-                head.GetComponent<HeadDist>().headLocked = false;
-                left.GetComponent<LeftDist>().leftLocked = false;
-                headRot.GetComponent<HeadTracking>().headRotLocked = false;
-                if (screenShotCount <= MAXCOUNT)
+                Debug.Log("LETS PRINTING NOW");
+                doPrinting = false;
+                PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
+            }
+            if (GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().firstSeceneChanged == true || GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().secondSceneChanged == true)
+            {
+                if (head.GetComponent<HeadDist>().headLocked == true && left.GetComponent<LeftDist>().leftLocked == true && headRot.GetComponent<HeadTracking>().headRotLocked == true)
                 {
-                    StartCoroutine("TakePicture");
+                    head.GetComponent<HeadDist>().headLocked = false;
+                    left.GetComponent<LeftDist>().leftLocked = false;
+                    headRot.GetComponent<HeadTracking>().headRotLocked = false;
+                    if (screenShotCount <= MAXCOUNT)
+                    {
+                        StartCoroutine("TakePicture");
+                    }
+
                 }
-                
             }
         }
-        long userId = manager.GetUserIdByIndex(playerIndex);
     }
-
+    public void PrintAnyWay()
+    {
+        if (latestOne != null)
+        {
+            Debug.Log("Printing Anyway");
+            PrinterPlugin.print(latestOne, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
+        }
+    }
     private IEnumerator CountdownAndTakePicture()
     {
         if (countdown.Length > 0)
@@ -91,6 +101,7 @@ public class ScreenShot : MonoBehaviour {
         yield return null;
     }
     int printNum = 0;
+    Texture2D latestOne;
     // ScreenShot
     IEnumerator TakePicture()
     {

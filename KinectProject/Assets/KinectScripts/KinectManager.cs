@@ -2013,7 +2013,6 @@ public class KinectManager : MonoBehaviour
 	{
 		try
 		{
-			// try to initialize the default Kinect2 sensor
 			KinectInterop.FrameSource dwFlags = KinectInterop.FrameSource.TypeBody;
 
 			if(computeUserMap != UserMapType.None)
@@ -2022,11 +2021,8 @@ public class KinectManager : MonoBehaviour
 				dwFlags |= KinectInterop.FrameSource.TypeColor;
 			if(computeInfraredMap)
 				dwFlags |= KinectInterop.FrameSource.TypeInfrared;
-//			if(useAudioSource)
-//				dwFlags |= KinectInterop.FrameSource.TypeAudio;
 
-			// open the default sensor
-			BackgroundRemovalManager brManager = gameObject.GetComponentInChildren<BackgroundRemovalManager>();
+            BackgroundRemovalManager brManager = gameObject.GetComponentInChildren<BackgroundRemovalManager>();
 			sensorData = KinectInterop.OpenDefaultSensor(sensorInterfaces, dwFlags, sensorAngle, useMultiSourceReader, computeUserMap, brManager);
 
 			if (sensorData == null)
@@ -2437,8 +2433,6 @@ public class KinectManager : MonoBehaviour
     bool isFlagg = false;
 	void Update() 
 	{
-
-        
 		if(kinectInitialized)
 		{
 			if(!kinectReaderRunning)
@@ -2466,20 +2460,24 @@ public class KinectManager : MonoBehaviour
 					}
 				}
 			}
-            if (isFlagg == false)
-            {
-                isTracked = headTrack.GetComponent<HeadTracking>().headFlagWithKinectDetected;
-                calibrationText.text = "Found you";
-                userDetected = true;
-                if(isTracked == true)
-                {
-                    Debug.Log("Just once");
-                    arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
-                    isFlagg = true;
-                }
+           //if (ArduinoSerial.phoneChecked)
+            //{
                 
-            }
-          
+                //Debug.Log("Phone ringed now started");
+                if (isFlagg == false)
+                {
+                    isTracked = headTrack.GetComponent<HeadTracking>().headFlagWithKinectDetected;
+                    calibrationText.text = "Found you";
+                    userDetected = true;
+                    if (isTracked == true)
+                    {
+                        Debug.Log("Just once---------------------------------------------------------------------------");
+                        arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
+                        isFlagg = true;
+                        
+                    }
+                }
+            //}
             // check for gestures
             foreach (Int64 userId in alUserIds)
 			{
@@ -2500,14 +2498,6 @@ public class KinectManager : MonoBehaviour
 
 					if(gestureData.complete)
 					{
-//						if(gestureData.gesture == KinectGestures.Gestures.Click)
-//						{
-//							if(controlMouseCursor)
-//							{
-//								MouseControl.MouseClick();
-//							}
-//						}
-				
 						foreach(KinectGestures.GestureListenerInterface listener in gestureListeners)
 						{
 							if(listener != null && listener.GestureCompleted(userId, userIndex, gestureData.gesture, (KinectInterop.JointType)gestureData.joint, gestureData.screenPos))
@@ -2528,21 +2518,6 @@ public class KinectManager : MonoBehaviour
 					}
 					else if(gestureData.progress >= 0.1f)
 					{
-//						if((gestureData.gesture == KinectGestures.Gestures.RightHandCursor || 
-//						    gestureData.gesture == KinectGestures.Gestures.LeftHandCursor) && 
-//						   gestureData.progress >= 0.5f)
-//						{
-//							if(handCursor != null)
-//							{
-//								handCursor.transform.position = Vector3.Lerp(handCursor.transform.position, gestureData.screenPos, 3 * Time.deltaTime);
-//							}
-//							
-//							if(controlMouseCursor)
-//							{
-//								MouseControl.MouseMove(gestureData.screenPos);
-//							}
-//						}
-						
 						foreach(KinectGestures.GestureListenerInterface listener in gestureListeners)
 						{
 							if(listener != null)
@@ -2552,8 +2527,6 @@ public class KinectManager : MonoBehaviour
 							}
 						}
 					}
-
-					//gesturesData[g] = gestureData;
 				}
 			}
 			
@@ -3467,24 +3440,10 @@ public class KinectManager : MonoBehaviour
 						if(calibrationText != null && calibrationText.text != "")
 						{
                            
-                             /*
-                            if (isTracked == true)
-                            {
-                                Debug.Log("got it");
-                                //calibrationText.text = "";
-                                calibrationText.text = "Found you";
-                                userDetected = true;
-                                arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(true);
-                            }
-                            */
-                            //arduinoController.GetComponent<ArduinoController>().SetUserDetected(true);
+                         
                         }
 					}
 				}
-               // else
-                //{
-                 //   GameObject.Find("HeadTracker").GetComponent<HeadTracking>().headFlagWithKinectDetected = false;
-               // }
 
 				// calibrates the respective avatar controllers
 				for(int i = 0; i < avatarControllers.Count; i++)

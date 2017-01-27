@@ -18,21 +18,19 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
     public bool _arduinoFlag_1;
     public bool _arduinoFlag_2;
     private bool? _detectedHead;
-    bool kinectFlag;
     private bool _firstSceneFlag;
-    private bool _flagP;
 
     public bool firstSeceneChanged;
     public bool secondSceneChanged;
+
+    public GameObject screenShot;
+    public GameObject audioManager;
     void Start() {
         //Stop smoke effect
         dustEffect.GetComponent<ParticleSystem>().Stop();
-        kinectFlag = false;
         _arduinoFlag_1 = false;
         _arduinoFlag_2 = false;
         _firstSceneFlag = true;
-        _flagP = false;
-
         firstSeceneChanged = false;
         secondSceneChanged = false;
     }
@@ -67,7 +65,8 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             {
                 Debug.Log("change the scene to 1");
                 //Capture Data;
-                if(firstSeceneChanged == false)
+                audioManager.GetComponent<AudioControl>().PlayTransitionBGM(1.0f);
+                if (firstSeceneChanged == false)
                 {
                     firstSeceneChanged = true;
                 }
@@ -80,7 +79,9 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             {
                 Debug.Log("change the scene to 2");
                 //Capture Data
-                if(secondSceneChanged == false)
+                //audioManager.GetComponent<AudioControl>().PlayTransitionBGM(1.0f);
+                audioManager.GetComponent<AudioControl>().StopBGM();
+                if (secondSceneChanged == false)
                 {
                     secondSceneChanged = true;
                 }
@@ -88,6 +89,7 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
                 _arduinoFlag_2 = true;
+                StartCoroutine(PrintingLatestOne(5.0f));
                 StartCoroutine(TestDoorOpen(15.0f));
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -139,7 +141,6 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         }
 
         //FadeOut and FadeIn to main Scene
-        //StartCoroutine(TransitionDelay(() => { StartCoroutine(FadeIn(1, 2.0f)); }, 3f));
         StartCoroutine(TransitionDelay(() => { StartCoroutine(FadeIn(1, 2.0f)); }, 1f, tx));
     }
     
@@ -173,6 +174,12 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         yield return new WaitForSeconds(time);
         arduinoDoor.GetComponent<ArduinoForDoor>().OperateDoorOpen(true); 
 
+    }
+
+    IEnumerator PrintingLatestOne(float pTime)
+    {
+        yield return new WaitForSeconds(pTime);
+        screenShot.GetComponent<ScreenShot>().PrintAnyWay();
     }
     
 }

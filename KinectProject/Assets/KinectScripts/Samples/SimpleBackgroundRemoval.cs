@@ -21,7 +21,6 @@ public class SimpleBackgroundRemoval : MonoBehaviour
     public Camera foregroundCamera;
     // rectangle taken by the foreground texture (in pixels)
     private Rect foregroundRect;
-    private bool isBrInited = false;
     // the Kinect manager
     private KinectManager manager;
 	
