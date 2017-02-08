@@ -14,6 +14,21 @@ public class GamaManager : MonoBehaviour {
         {
             Application.Quit();
         }
+        if (Input.GetKey(KeyCode.R))
+        {
+            ResetAll();
+        }
 	
 	}
+
+    public void ResetAll()
+    {
+        //Reset All value that can ready for the next user
+        //1. Screenshot (number reset)
+        //2. background reset to normal.
+        //3. sound reset
+        //4. Arduino flag change to false(Arduino, BackgroundRemoval)
+        
+        
+    }
 }

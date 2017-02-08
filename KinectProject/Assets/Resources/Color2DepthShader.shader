@@ -1,7 +1,7 @@
 ﻿Shader "Kinect/Color2DepthShader" {
     Properties {
-        _BodyTex ("Body (RGB)", 2D) = "white" {}
-        _ColorTex ("Color (RGB)", 2D) = "white" {}
+        _BodyTex ("Body (RGB)", 2D) = "white" {} //white
+        _ColorTex ("Color (RGB)", 2D) = "white" {} //red
     }
     
 	SubShader {

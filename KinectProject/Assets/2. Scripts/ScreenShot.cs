@@ -11,9 +11,6 @@ public class ScreenShot : MonoBehaviour {
     [Tooltip("Camera that will be used to overlay the 3D-objects over the background.")]
     public Camera foreroundCamera;
 
-    [Tooltip("Array of sprite transforms that will be used for displaying the countdown until image shot.")]
-    public Transform[] countdown;
-
     [Tooltip("GUI-Text used to display information messages.")]
     public GUIText infoText;
     // Use this for initialization
@@ -33,19 +30,31 @@ public class ScreenShot : MonoBehaviour {
     int screenShotCount = 0;
 
     public bool testForPrinting;
+    int printNum = 0;
 
     void Start () {
         doPrinting = false;
-
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine("TakePicture");
+            StartCoroutine("TakePicture_Space");
+        }
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.PAGE_HEIGHT);
+        }
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.PAGE_WIDTH);
         }
         if (Input.GetKeyDown(KeyCode.F11))
+        {
+            PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.NO_SCALE);
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
         {
             PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
         }
@@ -55,7 +64,8 @@ public class ScreenShot : MonoBehaviour {
             {
                 Debug.Log("LETS PRINTING NOW");
                 doPrinting = false;
-                PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
+                // PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
+                PrinterPlugin.print(printingTexture, false, PrinterPlugin.PrintScaleMode.PAGE_WIDTH);
             }
             if (GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().firstSeceneChanged == true || GameObject.Find("BackgroundManger").GetComponent<BackgroundRemoval_V1>().secondSceneChanged == true)
             {
@@ -68,67 +78,40 @@ public class ScreenShot : MonoBehaviour {
                     {
                         StartCoroutine("TakePicture");
                     }
-
                 }
             }
         }
     }
-    public void PrintAnyWay()
-    {
-        if (latestOne != null)
-        {
-            Debug.Log("Printing Anyway");
-            PrinterPlugin.print(latestOne, false, PrinterPlugin.PrintScaleMode.FILL_PAGE);
-        }
-    }
-    private IEnumerator CountdownAndTakePicture()
-    {
-        if (countdown.Length > 0)
-        {
-            for (int i = 0; i < countdown.Length; i++)
-            {
-                if (countdown[i])
-                    countdown[i].gameObject.SetActive(true);
 
-                yield return new WaitForSeconds(1.0f);
-
-                if (countdown[i])
-                    countdown[i].gameObject.SetActive(false);
-            }
-        }
-
-        StartCoroutine("TakePicture");
-        yield return null;
-    }
-    int printNum = 0;
-    Texture2D latestOne;
     // ScreenShot
     IEnumerator TakePicture()
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("SHoT!!");
         screenShotCount++;
-          Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-        //defaultTexture = new Texture2D(defaultTexture.width, defaultTexture.height, TextureFormat.RGB24, false);
+        Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         screenTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
         defaultTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
       
         screenTexture.Apply();
         defaultTexture.Apply();
-        byte[] dataToSave = screenTexture.EncodeToPNG();
+
+        Texture2D changedScale = ScaleTexture(screenTexture, 500, 750);
+        byte[] dataToSave = changedScale.EncodeToPNG();
+        //byte[] dataToSave = screenTexture.EncodeToPNG();
         byte[] dataForPrinting = defaultTexture.EncodeToPNG();
         string sDirName = Application.dataPath + "/Screenshots";
 
         if (!Directory.Exists(sDirName))
             Directory.CreateDirectory(sDirName);
         string sFileName = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".png");
-        string sFileName2 = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("Printing-yyyy-MM-dd-HHmmss") + ".png");
-       // File.WriteAllBytes(sFileName, dataToSave);
+        //string sFileName2 = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("Printing-yyyy-MM-dd-HHmmss") + ".png");
+        //File.WriteAllBytes(sFileName, dataToSave);
         new System.Threading.Thread(() =>
         {
             System.Threading.Thread.Sleep(100);
             File.WriteAllBytes(sFileName, dataToSave);
-            File.WriteAllBytes(sFileName2, dataToSave);
+        //File.WriteAllBytes(sFileName2, dataToSave);
         }).Start();
         printNum++;
 
@@ -139,6 +122,43 @@ public class ScreenShot : MonoBehaviour {
         }
         //AssetDatabase.Refresh();
     }
+
+    IEnumerator TakePicture_Space()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log("SHoT!!");
+        screenShotCount++;
+        Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        //defaultTexture = new Texture2D(defaultTexture.width, defaultTexture.height, TextureFormat.RGB24, false);
+        screenTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
+        defaultTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
+
+        screenTexture.Apply();
+        defaultTexture.Apply();
+
+        // Texture2D temp= ScaleTexture(screenTexture, 1000, 1500);
+        Texture2D temp = ScaleTexture(screenTexture, 500, 750);
+        byte[] dataToSave = temp.EncodeToPNG();
+
+        //byte[] dataToSave = screenTexture.EncodeToPNG();
+        byte[] dataForPrinting = defaultTexture.EncodeToPNG();
+        string sDirName = Application.dataPath + "/Screenshots";
+
+        if (!Directory.Exists(sDirName))
+            Directory.CreateDirectory(sDirName);
+        string sFileName = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("Space-yyyy-MM-dd-HHmmss") + ".png");
+        //string sFileName2 = sDirName + "/" + string.Format("{0}", System.DateTime.Now.ToString("Space-Printing-yyyy-MM-dd-HHmmss") + ".png");
+        //File.WriteAllBytes(sFileName, dataToSave);
+        new System.Threading.Thread(() =>
+        {
+            System.Threading.Thread.Sleep(100);
+            File.WriteAllBytes(sFileName, dataToSave);
+            //File.WriteAllBytes(sFileName2, dataToSave);
+        }).Start();
+        printingTexture = screenTexture;
+        //AssetDatabase.Refresh();
+    }
+
     private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
     {
         Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);

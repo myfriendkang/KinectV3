@@ -33,19 +33,19 @@ public class HeadTracking : MonoBehaviour
                 Quaternion headPosRot = _kinectManager.GetJointOrientation(userId, (int)KinectInterop.JointType.Head, true);
                 headPosition = jointHeadPos;
                 // Debug.Log(headDistance);
-                isPhoneRinged = arduino.GetComponent<ArduinoSerial>().GetPhoneCheck();
-                Debug.Log("FUCKKCKK  " + isPhoneRinged);
+                //isPhoneRinged = arduino.GetComponent<ArduinoSerial>().GetPhoneCheck();
                 
+                /*
                 if (isPhoneRinged == true)
                 {
                    // Debug.Log("at head tracking");
                     if (headDistance < 1.8f && headDistance >= 1.4f)
                     {
-                        Debug.Log("WTF arduino");
+                        Debug.Log("Time to send signal to arduino");
                         headFlagWithKinectDetected = true;
                     }
                 }
-                
+                */
 
                 headDistance = headPosition.z;
                 Vector3 newRot = headPosRot * Vector3.forward;

@@ -54,12 +54,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 	// The single instance of BackgroundRemovalManager
 	private static BackgroundRemovalManager instance;
     public GameObject backgroundControl;
-    public int stageStatus;
 
-    public GUIText debug_Erode;
-    public GUIText debug_Dilate;
-
-	/// <summary>
+  	/// <summary>
 	/// Gets the single BackgroundRemovalManager instance.
 	/// </summary>
 	/// <value>The BackgroundRemovalManager instance.</value>
@@ -264,44 +260,8 @@ public class BackgroundRemovalManager : MonoBehaviour
 
 			// erode & dilate iterations
 			sensorData.erodeIterations = erodeIterations;
-		   sensorData.dilateIterations = dilateIterations;
+		    sensorData.dilateIterations = dilateIterations;
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (sensorData.erodeIterations < 9)
-                {
-                    sensorData.erodeIterations += 1;
-                }
-                Debug.Log("Current ErodeIteration = " + sensorData.erodeIterations);
-                debug_Erode.text = "Erode = " + sensorData.erodeIterations.ToString();
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if(sensorData.erodeIterations > 0)
-                {
-                    sensorData.erodeIterations -= 1;
-                }
-                Debug.Log("Current ErodeIteration = " + sensorData.erodeIterations);
-                debug_Erode.text = "Erode = " + sensorData.erodeIterations.ToString();
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                if (sensorData.dilateIterations > 0)
-                {
-                    sensorData.dilateIterations -= 1;
-                }
-                Debug.Log("Get DilateIteration = " + sensorData.dilateIterations);
-                debug_Dilate.text = "Dilate = " + sensorData.dilateIterations.ToString();
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (sensorData.dilateIterations < 9)
-                {
-                    sensorData.dilateIterations += 1;
-                }
-                Debug.Log("Get ilateIteration = " + sensorData.dilateIterations);
-                debug_Dilate.text = "Dilate = " + sensorData.dilateIterations.ToString();
-            }
 			// update the background removal
 			bool bSuccess = sensorData.sensorInterface.UpdateBackgroundRemoval(sensorData, colorCameraResolution, defaultColor, computeBodyTexOnly);
 			

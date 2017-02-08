@@ -78,19 +78,16 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
             else if (Input.GetKeyDown(KeyCode.Alpha3) || (a == 2 && _arduinoFlag_2 == false && _detectedHead == true)) //|| (b == 2 && _arduinoFlag == false && _detectedHead == true))
             {
                 Debug.Log("change the scene to 2");
-                //Capture Data
-                //audioManager.GetComponent<AudioControl>().PlayTransitionBGM(1.0f);
-                audioManager.GetComponent<AudioControl>().StopBGM();
+
                 if (secondSceneChanged == false)
                 {
                     secondSceneChanged = true;
                 }
-                //
+
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
                 _arduinoFlag_2 = true;
-                StartCoroutine(PrintingLatestOne(5.0f));
-                StartCoroutine(TestDoorOpen(15.0f));
+                StartCoroutine(TestDoorOpen(40.0f));
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
@@ -175,11 +172,5 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         arduinoDoor.GetComponent<ArduinoForDoor>().OperateDoorOpen(true); 
 
     }
-
-    IEnumerator PrintingLatestOne(float pTime)
-    {
-        yield return new WaitForSeconds(pTime);
-        screenShot.GetComponent<ScreenShot>().PrintAnyWay();
-    }
-    
+   
 }

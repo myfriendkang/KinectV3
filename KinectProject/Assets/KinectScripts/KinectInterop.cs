@@ -603,7 +603,6 @@ public class KinectInterop
 						sensorData.sensorInterface = sensorInt;
 						sensorData.sensorIntPlatform = sensorInt.GetSensorPlatform();
 						Debug.Log("Interface used: " + sensorInt.GetType().Name);
-
 						Debug.Log("Shader level: " + SystemInfo.graphicsShaderLevel);
 						if(sensorData.bodyIndexImage != null && IsDirectX11Available())
 						{
@@ -2305,15 +2304,16 @@ public class KinectInterop
 				
 				if(sensorData.erodeBodyMaterial != null && sensorData.dilateBodyMaterial != null && sensorData.blurBodyMaterial)
 				{
-					ApplyErodeDilate(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.erodeBodyMaterial, 
+                    ApplyErodeDilate(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.erodeBodyMaterial, 
  					                 sensorData.dilateBodyMaterial, sensorData.erodeIterations, sensorData.dilateIterations);
-					ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 1, 0.6f);
-				}
+                    //ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 1, 0.6f);
+                    ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 2, 0.6f);
+                }
 			}
 
 			// blit the hi-res texture
 			if(!bAlphaTexOnly)
-			{
+            { 
 				//sensorData.color2DepthBuffer.SetData(sensorData.color2DepthCoords);
 				
 				sensorData.color2DepthMaterial.SetTexture("_BodyTex", sensorData.alphaBodyTexture);
@@ -2335,8 +2335,9 @@ public class KinectInterop
 			{
 				ApplyErodeDilate(sensorData.bodyIndexTexture, sensorData.alphaBodyTexture, sensorData.erodeBodyMaterial, 
 				                 sensorData.dilateBodyMaterial, sensorData.erodeIterations, sensorData.dilateIterations);
-				ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 0, 0.6f);
-			}
+                //ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 0, 0.6f);
+                ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 0, 0.6f);
+            }
 
 			// blit the lo-res texture
 			if(!bAlphaTexOnly)

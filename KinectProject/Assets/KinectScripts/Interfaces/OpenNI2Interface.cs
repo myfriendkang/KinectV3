@@ -356,7 +356,7 @@ public class OpenNI2Interface : DepthSensorInterface
 			
 			sensorData.depthCameraFOV = 46.6f;
 			sensorData.colorCameraFOV = 48.6f;
-			sensorData.depthCameraOffset = 0.01f;
+			sensorData.depthCameraOffset = 0.01f;//0.01f
 			sensorData.faceOverlayOffset = 0.01f;
 
 			sensorData.colorImageWidth = GetColorWidth();

@@ -103,8 +103,8 @@ public class ArduinoSerial : MonoBehaviour {
             if (ActualTesting == true)
             {
                 Debug.Log("run arduino!!");
-                _serialPort.Write("c");
-                _serialPort.Write("d");
+              //  _serialPort.Write("c");
+              //_serialPort.Write("d");
             }
             Debug.Log("only Kinect Testing!!");
             flag = true;
