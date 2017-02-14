@@ -25,6 +25,8 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
 
     public GameObject screenShot;
     public GameObject audioManager;
+
+    public bool testDoorOpen = false;
     void Start() {
         //Stop smoke effect
         dustEffect.GetComponent<ParticleSystem>().Stop();
@@ -33,6 +35,7 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
         _firstSceneFlag = true;
         firstSeceneChanged = false;
         secondSceneChanged = false;
+        
     }
 
     // Update is called once per frame
@@ -60,7 +63,18 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
                     firstSeceneChanged = false;
                     secondSceneChanged = false;
                 }
+
+                //GameManager == reset call
+                _arduinoFlag_1 = false;
+                _arduinoFlag_2 = false;
+                screenShot.GetComponent<ScreenShot>().ResetPrintNum();
+                audioManager.GetComponent<AudioControl>().StopBGM();
+                ArduinoSerial._flag_1 = false;
+                ArduinoSerial._flag_2 = false;
+                arduinoDoor.GetComponent<ArduinoForDoor>().flag = false;
+
             }
+
             else if (Input.GetKeyDown(KeyCode.Alpha2) || (a == 1 && _arduinoFlag_1 == false && _detectedHead == true)) //|| (b==1 && _arduinoFlag == false && _detectedHead== true))
             {
                 Debug.Log("change the scene to 1");
@@ -87,7 +101,10 @@ public class BackgroundRemoval_V1 : MonoBehaviour {
                 StartCoroutine(EmitSmokeEffect(1.5f, true));
                 StartCoroutine(FadeOut(0, 2.0f, backgrounds[1]));
                 _arduinoFlag_2 = true;
-                StartCoroutine(TestDoorOpen(40.0f));
+                if (testDoorOpen == true)
+                {
+                    StartCoroutine(TestDoorOpen(40.0f));
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {

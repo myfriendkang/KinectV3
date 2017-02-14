@@ -2204,10 +2204,11 @@ public class KinectInterop
 			if(isHiResPrefered)
 			{
 				sensorData.alphaBodyTexture = new RenderTexture(sensorData.colorImageWidth, sensorData.colorImageHeight, 0);
-				sensorData.alphaBodyTexture.wrapMode = TextureWrapMode.Clamp;
-				//sensorData.alphaBodyTexture.filterMode = FilterMode.Point;
+                 //sensorData.alphaBodyTexture.wrapMode = TextureWrapMode.Clamp;
+                sensorData.alphaBodyTexture.wrapMode = TextureWrapMode.Repeat;
+                //sensorData.alphaBodyTexture.filterMode = FilterMode.Point;
 
-				Shader alphaBodyShader = Shader.Find("Kinect/Color2BodyShader");
+                Shader alphaBodyShader = Shader.Find("Kinect/Color2BodyShader");
 				
 				if(alphaBodyShader)
 				{
@@ -2307,7 +2308,7 @@ public class KinectInterop
                     ApplyErodeDilate(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.erodeBodyMaterial, 
  					                 sensorData.dilateBodyMaterial, sensorData.erodeIterations, sensorData.dilateIterations);
                     //ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 1, 0.6f);
-                    ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 2, 0.6f);
+                    ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 2, 0.9f); //0.8f
                 }
 			}
 
@@ -2333,6 +2334,7 @@ public class KinectInterop
 		{
 			if(sensorData.erodeBodyMaterial != null && sensorData.dilateBodyMaterial != null && sensorData.blurBodyMaterial)
 			{
+                Debug.Log("Here? ? ");
 				ApplyErodeDilate(sensorData.bodyIndexTexture, sensorData.alphaBodyTexture, sensorData.erodeBodyMaterial, 
 				                 sensorData.dilateBodyMaterial, sensorData.erodeIterations, sensorData.dilateIterations);
                 //ApplyImageBlur(sensorData.alphaBodyTexture, sensorData.alphaBodyTexture, sensorData.blurBodyMaterial, 0, 0.6f);
@@ -2438,9 +2440,9 @@ public class KinectInterop
 	// performs one blur iteration.
 	private static void FourTapCone (RenderTexture source, RenderTexture dest, Material material, int iteration, float blurSpread)
 	{
-		float off = 0.5f + iteration * blurSpread;
-
-		Graphics.BlitMultiTap (source, dest, material,
+		//float off = 0.5f + iteration * blurSpread;
+        float off = 0.5f + iteration * blurSpread;
+        Graphics.BlitMultiTap (source, dest, material,
 			new Vector2(-off, -off),
 			new Vector2(-off,  off),
 			new Vector2( off,  off),

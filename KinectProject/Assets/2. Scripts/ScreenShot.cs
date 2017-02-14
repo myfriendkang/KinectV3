@@ -30,7 +30,7 @@ public class ScreenShot : MonoBehaviour {
     int screenShotCount = 0;
 
     public bool testForPrinting;
-    int printNum = 0;
+    public int printNum = 0;
 
     void Start () {
         doPrinting = false;
@@ -173,5 +173,10 @@ public class ScreenShot : MonoBehaviour {
         result.SetPixels(rpixels, 0);
         result.Apply();
         return result;
+    }
+
+    public void ResetPrintNum()
+    {
+        printNum = 0;
     }
 }

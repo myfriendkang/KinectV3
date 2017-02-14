@@ -12,13 +12,13 @@ public class ArduinoSerial : MonoBehaviour {
     private Thread _ReadThread;
     private static SerialPort _serialPort;
     private static bool _CONTINUE;
-    private static bool _flag_1;
-    private static bool _flag_2;
-    private static bool _flag_3;
+    public static bool _flag_1;
+    public static bool _flag_2;
+    //public static bool _flag_3;
     bool flag;
     public static int count;
-    public static bool phoneChecked = false;
-    public bool ActualTesting;
+    //public static bool phoneChecked = false;
+    //public bool ActualTesting;
 
     // Use this for initialization
     void Start () {
@@ -29,11 +29,10 @@ public class ArduinoSerial : MonoBehaviour {
         _serialPort.Open();
         _CONTINUE = true;
         _ReadThread.Start();
-        flag = false;
         _flag_1 = false;
         _flag_2 = false;
-        _flag_3 = false;
-        phoneChecked = false;
+        //_flag_3 = false;
+        //phoneChecked = false;
     }
 	
 	// Update is called once per frame
@@ -45,7 +44,6 @@ public class ArduinoSerial : MonoBehaviour {
         _CONTINUE = false;
         _ReadThread.Join();
         _serialPort.Close();
-        flag = false;
     }
     private static void Read()
     {
@@ -76,14 +74,16 @@ public class ArduinoSerial : MonoBehaviour {
                         Debug.Log("reset all the flags");
                         _flag_2 = true;
                     }
+                    /*
                     if(temp == 6 && _flag_3 == false)
                     {
                         Debug.Log("Phone Ring!");
-                        phoneChecked = true;
+                        //phoneChecked = true;
                         //ReturnPhone();
                         _flag_3 = true;
                         // phoneChecked = false;
                     }
+                    */
                 }
                 catch (TimeoutException)
                 {
@@ -96,6 +96,7 @@ public class ArduinoSerial : MonoBehaviour {
     }
 
     //UNITY -> ARDUINO
+    /*
     public void SetUserDetected(bool check)
     {
         if (check == true && flag == false)
@@ -110,12 +111,14 @@ public class ArduinoSerial : MonoBehaviour {
             flag = true;
         }
     }
+    */
 
     static void ReturnIndex(int num)
     {
         count = num;
     }
 
+    /*
     public static void ReturnPhone()
     {
         phoneChecked = true;
@@ -126,4 +129,5 @@ public class ArduinoSerial : MonoBehaviour {
     {
         return phoneChecked;
     }
+    */
 }

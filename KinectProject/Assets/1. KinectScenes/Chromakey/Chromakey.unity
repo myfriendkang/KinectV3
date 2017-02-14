@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 210238681}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e2411f62603364dad9800979d3daf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: 0
 --- !u!4 &497179335
 Transform:
   m_ObjectHideFlags: 0
@@ -503,7 +504,7 @@ MonoBehaviour:
   DisplayMapsWidthPercent: 20
   useMultiSourceReader: 1
   minUserDistance: 0.5
-  maxUserDistance: 3
+  maxUserDistance: 5
   maxLeftRightDistance: 0
   maxTrackedUsers: 3
   showTrackedUsersOnly: 0
@@ -525,7 +526,7 @@ MonoBehaviour:
   calibrationText: {fileID: 990189646}
   gesturesDebugText: {fileID: 0}
   arduinoController: {fileID: 1795412387}
-  userDetected: 0
+  userDetected: 1
   headTrack: {fileID: 1126099174}
 --- !u!4 &762920939
 Transform:
@@ -562,6 +563,7 @@ MonoBehaviour:
   defaultTexture: {fileID: 2800000, guid: cd817e24f70b3f84893f0ccd7b953509, type: 3}
   printingTexture: {fileID: 0}
   testForPrinting: 0
+  printNum: 0
 --- !u!114 &762920941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,6 +1100,7 @@ MonoBehaviour:
   secondSceneChanged: 0
   screenShot: {fileID: 762920935}
   audioManager: {fileID: 864504125}
+  testDoorOpen: 0
 --- !u!1 &1551283657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,7 +1307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9769cf4f42f55ea47ad0b8db6a61193e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActualTesting: 0
 --- !u!1 &1848684306
 GameObject:
   m_ObjectHideFlags: 0

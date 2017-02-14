@@ -2201,9 +2201,8 @@ public class KinectManager : MonoBehaviour
 		if(calibrationText != null)
 		{
 			calibrationText.text = "WAITING FOR USERS";
-            userDetected = false;
-           //arduinoController.GetComponent<ArduinoController>().SetUserDetected(false);
-           arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(false);
+           // userDetected = false;
+           //arduinoController.GetComponent<ArduinoSerial>().SetUserDetected(false);
         }
 		
 		Debug.Log("Waiting for users.");
@@ -2430,7 +2429,7 @@ public class KinectManager : MonoBehaviour
 			}
 		}
 	}
-    bool isFlagg = false;
+  //  bool isFlagg = false;
 	void Update() 
 	{
 		if(kinectInitialized)
@@ -2464,6 +2463,7 @@ public class KinectManager : MonoBehaviour
             //{
                 
                 //Debug.Log("Phone ringed now started");
+                /*
                 if (isFlagg == false)
                 {
                     isTracked = headTrack.GetComponent<HeadTracking>().headFlagWithKinectDetected;
@@ -2477,6 +2477,7 @@ public class KinectManager : MonoBehaviour
                         
                     }
                 }
+                */
             //}
             // check for gestures
             foreach (Int64 userId in alUserIds)

@@ -13,7 +13,7 @@ public class ArduinoForDoor : MonoBehaviour
     private Thread _ReadThread;
     private static SerialPort _serialPort;
     private static bool _CONTINUE;
-    private bool flag;
+    public bool flag;
 
     // Use this for initialization
     void Start()
